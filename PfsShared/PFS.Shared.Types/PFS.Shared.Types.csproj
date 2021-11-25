@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <Version>0.5.0.2</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Jami Suni</Authors>
+    <Product>www.portfoliostalker.com</Product>
+    <PackageId>Portfoliostalker.Shared.Types</PackageId>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <PackageProjectUrl>https://github.com/jsCoding4Fun/portfoliostalker.com</PackageProjectUrl>
+  </PropertyGroup>
+
+</Project>

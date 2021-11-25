@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <Version>0.5.0.2</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Jami Suni</Authors>
+    <Product>www.portfoliostalker.com</Product>
+    <PackageId>Portfoliostalker.Shared.Tracker</PackageId>
+    <PackageProjectUrl>https://github.com/jsCoding4Fun/portfoliostalker.com</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PFS.Shared.Types\PFS.Shared.Types.csproj" />
+  </ItemGroup>
+
+</Project>
