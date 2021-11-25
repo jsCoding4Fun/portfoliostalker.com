@@ -1,0 +1,33 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Shared.UiTypes
+
+@if (string.IsNullOrEmpty(_newsText) == false)
+{
+<MudPaper Class="pa-4 ma-2" Outlined="true">
+    <MudTextField  @bind-Value="_newsText" Label="Body Text" Variant="Variant.Outlined" ReadOnly="true" Lines="10" /> 
+</MudPaper>
+}
+
+@if (_view != null && _view.Count > 0)
+{
+    <MudPaper Class="pa-4 ma-2" Outlined="true">
+        <MudTable T="News" Items="@_view" Hover="true" SortLabel="Sort By" FixedHeader="true" Height="300px" OnRowClick="@(args => OnRowClicked(args))" >
+            <HeaderContent>
+                <MudTh>Date</MudTh>
+                <MudTh>Header</MudTh>
+                <MudTh>Del</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>
+                    @if (context.Status == NewsStatus.Unread)
+                {
+                    <MudIconButton Icon="@Icons.Material.Filled.Markunread" Color="Color.Error" />
+                }
+                @context.Date.ToString("MMM-dd")
+            </MudTd>
+            <MudTd>@context.Header</MudTd>
+            <MudTd><MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="@(() => OnBtnDelAsync(@context))" /></MudTd>
+        </RowTemplate>
+    </MudTable>
+</MudPaper>
+}

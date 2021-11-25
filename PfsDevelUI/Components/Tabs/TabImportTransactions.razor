@@ -1,0 +1,72 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Shared.Types
+
+<MudCard>
+    <MudCardContent>
+        
+        <MudAppBar Color="Color.Secondary" Fixed="false" >
+
+            @if (_progress == Progress.PreConversion)
+            { 
+
+                @if (_selFormat == ExtTransactionsProvider.Unknown)
+                {
+                    <MudText Color="Color.Primary" Typo="Typo.body2">1/5 Select Broker:</MudText>
+                    <MudSpacer />
+
+                    <MudSelect T="ExtTransactionsProvider" Variant="Variant.Outlined" @bind-Value="_selFormat" Label="Select Broker">
+                        @foreach (ExtTransactionsProvider provider in Enum.GetValues(typeof(ExtTransactionsProvider)))
+                        {
+                            <MudSelectItem T="ExtTransactionsProvider" Value="@provider">@provider.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+                }
+                else
+                {
+                    <MudText Color="Color.Primary" Typo="Typo.body2">2/5 Import data for: <b>@_selFormat.ToString()</b></MudText>
+                    <MudSpacer />
+
+                    <InputFile OnChange="OnInputFileChangeAsync"></InputFile>
+                    <MudSpacer />
+                }
+
+                <MudButton Color="Color.Primary" OnClick="OnBtnDoConversionAsync" >Convert</MudButton>
+            }
+
+            @if ( _progress == Progress.ViewAll)
+            {
+                <MudText Color="Color.Primary" Typo="Typo.body2">3/5 Conversion result:</MudText>
+                <MudSpacer />
+
+                <MudDatePicker Label="From" OpenTo="OpenTo.Year" @bind-Date="_fromDay" />
+
+                <MudButton Color="Color.Primary" OnClick="OnBtnAddNewCompanies" >Add Companies</MudButton>
+
+                <MudButton Color="Color.Primary" OnClick="OnBtnViewAccepted" >View Accepted</MudButton>
+            }
+
+            @if ( _progress == Progress.ViewAccepted)
+            {
+                <MudText Color="Color.Primary" Typo="Typo.body2">4/5 Ready to process:</MudText>
+                <MudSpacer />
+
+                <MudButton Color="Color.Primary" OnClick="OnBtnProcessAsync" >Process</MudButton>
+            }
+
+            @if (_progress == Progress.Finished)
+            {
+                <MudText Color="Color.Primary" Typo="Typo.body2">5/5 FINISHED</MudText>
+                <MudSpacer />
+            }
+
+        </MudAppBar>
+
+    </MudCardContent>
+
+    @if (_selFormat != ExtTransactionsProvider.Unknown)
+    {
+        <MudCardContent>
+            <MudTextField  @bind-Value="_mainView" Lines="20" Variant="Variant.Outlined" ReadOnly="true" />
+        </MudCardContent>
+    }
+</MudCard>

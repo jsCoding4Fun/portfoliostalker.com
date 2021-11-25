@@ -1,0 +1,18 @@
+﻿@using PfsDevelUI.Shared
+
+<MudTable Items="@Orders" >
+    <HeaderContent>
+        <MudTh>Type</MudTh>
+        <MudTh>Units</MudTh>
+        <MudTh>Price</MudTh>
+        <MudTh>From</MudTh>
+        <MudTh>To</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd >@context.Type.ToString()</MudTd>
+        <MudTd >@context.Units</MudTd>
+        <MudTd >@context.PricePerUnit.ToString("0.00")@UiF.Curr(Currency)</MudTd>
+        <MudTd >@context.FirstDate.ToString("yyyy-MM-dd")</MudTd>
+        <MudTd >@context.LastDate.ToString("yyyy-MM-dd")</MudTd>
+    </RowTemplate>
+</MudTable>

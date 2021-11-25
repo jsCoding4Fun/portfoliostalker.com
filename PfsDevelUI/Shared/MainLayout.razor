@@ -1,0 +1,26 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<MudThemeProvider/>
+<MudSnackbarProvider/>
+
+<MudDialogProvider
+    FullWidth="true"
+    MaxWidth="MaxWidth.Small"
+    CloseButton="true"
+    DisableBackdropClick="true"
+    NoHeader="false"
+    Position="DialogPosition.Center"
+    />
+

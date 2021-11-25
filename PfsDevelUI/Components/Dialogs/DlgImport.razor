@@ -1,0 +1,65 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Shared.UiTypes
+
+<MudDialog>
+    <TitleContent>
+
+        <MudToggleIconButton Toggled="@_fullscreen" ToggledChanged="OnFullScreenChanged"
+                        Icon="@Icons.Material.Filled.Fullscreen" Color="@Color.Error" 
+                        ToggledIcon="@Icons.Material.Filled.Fullscreen" ToggledColor="@Color.Success" />
+
+        Import:
+
+    </TitleContent>
+
+    <DialogContent>
+
+        @if ( _showBusySignal == true )
+        {
+            <MudProgressCircular Indeterminate="true"></MudProgressCircular>        
+        }
+
+        <MudSelect T="ImportType" Label="Select Type" Required ValueChanged="OnImportTypeChanged"  >
+            @foreach (ImportType item in _supportedImports)
+            {
+                <MudSelectItem Value="@item">@item</MudSelectItem>
+            }
+        </MudSelect>
+
+        @if (_importType != ImportType.Unknown)
+        {
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField T="string" ReadOnly Lines="6" Text="@_configs[_importType].ImportNote" />
+                    @if (string.IsNullOrWhiteSpace(@_configs[_importType].ImportWarning) == false)
+                    {
+                    <MudTextField T="string" ReadOnly Lines="2" Text="@_configs[_importType].ImportWarning" />
+                    }
+                </MudCardContent>
+            </MudCard>
+            <br />
+            <InputFile OnChange="@OnInputFileChange"></InputFile>
+
+            if (string.IsNullOrWhiteSpace(_dryRunOutput) == false)
+            {   
+                <MudContainer Style="max-height: 300px; overflow-y: scroll">
+                    <MudTextField T="string" FullWidth="true" ReadOnly="true" Lines="10" @bind-Value="_dryRunOutput" />
+                </MudContainer>
+            }
+        }
+
+    </DialogContent>
+
+    <DialogActions>
+
+        @if ( _importType != ImportType.Unknown && @_configs[_importType].SupportsDryRun == true )
+        {
+        <MudButton Color="Color.Primary" Disabled="@_showBusySignal"  OnClick="DlgDryRunAsync">Test</MudButton>
+        }
+
+        <MudButton OnClick="DlgCancel">Cancel</MudButton>
+
+        <MudButton Color="Color.Primary" Disabled="@_showBusySignal"  OnClick="DlgOkAsync">Import</MudButton>
+
+    </DialogActions>
+</MudDialog>

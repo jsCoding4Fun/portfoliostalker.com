@@ -1,0 +1,29 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+
+<MudDialog>
+    <TitleContent>
+
+        <MudToggleIconButton Toggled="@_fullscreen" ToggledChanged="OnFullScreenChanged"
+                        Icon="@Icons.Material.Filled.Fullscreen" Color="@Color.Error" 
+                        ToggledIcon="@Icons.Material.Filled.Fullscreen" ToggledColor="@Color.Success" />
+
+        @_title
+
+    </TitleContent>
+
+    <DialogContent>
+
+        <MudDatePicker Label="From" OpenTo="OpenTo.Year" @bind-Date="_eodFromDay" MinDate="@_eodMinDay" MaxDate="@_eodToDay"/>
+        <MudDatePicker Label="To" OpenTo="OpenTo.Year" @bind-Date="_eodToDay"  MinDate="@_eodMinDay" MaxDate="@(DateTime.Now)" />
+
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="DlgTestAsync">Test</MudButton>
+
+        <MudButton OnClick="DlgCancel">Cancel</MudButton>
+
+        <MudButton Color="Color.Primary" OnClick="DlgFetchAsync">Fetch</MudButton>
+    </DialogActions>
+</MudDialog>

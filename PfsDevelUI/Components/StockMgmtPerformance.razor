@@ -1,0 +1,146 @@
+﻿@using PfsDevelUI.Shared
+
+<MudPaper Height="400px" Width="100%" >
+
+<MudTable T="ViewDailyPerformance" Items="@_viewDaily" Context="daily" Hover="true" SortLabel="Sort By" FixedHeader="true" Height="400px" >
+    <HeaderContent>
+        <MudTh>Daily</MudTh>
+        <MudTh>Closing</MudTh>
+        <MudTh>RSI14D</MudTh>
+        <MudTh>Lvl% 1Y</MudTh>
+        <MudTh>MFI14D</MudTh>
+        <MudTh>Lvl% 1Y</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+
+        <MudTd >@daily.DateStr</MudTd>
+
+        <MudTd >
+        @if (daily.EodUp)
+        {
+        <span style="color:green">@daily.EodClose.ToString("0.00")</span>
+        }
+        else
+        {
+        <span style="color:red">@daily.EodClose.ToString("0.00")</span>
+        }
+        </MudTd>
+
+        <MudTd >
+        @if (daily.RSI14D.HasValue && daily.RSI14DUp == true )
+        {
+        <span style="color:green">@daily.RSI14D.Value.ToString("0.00")</span>
+        }
+        else if (daily.RSI14D.HasValue && daily.RSI14DUp == false )
+        {
+        <span style="color:red">@daily.RSI14D.Value.ToString("0.00")</span>
+        }
+        </MudTd>
+
+        <MudTd >
+        @if (daily.RSI14Dlvl.HasValue && daily.RSI14DlvlUp == true )
+        {
+        <span style="color:green">@daily.RSI14Dlvl.Value%</span>
+        }
+        else if (daily.RSI14Dlvl.HasValue && daily.RSI14DlvlUp == false )
+        {
+        <span style="color:red">@daily.RSI14Dlvl.Value%</span>
+        }
+        </MudTd>
+
+        <MudTd >
+        @if (daily.MFI14D.HasValue && daily.MFI14DUp == true )
+        {
+        <span style="color:green">@daily.MFI14D.Value.ToString("0.00")</span>
+        }
+        else if (daily.MFI14D.HasValue && daily.MFI14DUp == false )
+        {
+        <span style="color:red">@daily.MFI14D.Value.ToString("0.00")</span>
+        }
+        </MudTd>
+
+        <MudTd >
+        @if (daily.MFI14Dlvl.HasValue && daily.MFI14DlvlUp == true )
+        {
+        <span style="color:green">@daily.MFI14Dlvl.Value%</span>
+        }
+        else if (daily.MFI14Dlvl.HasValue && daily.MFI14DlvlUp == false )
+        {
+        <span style="color:red">@daily.MFI14Dlvl.Value%</span>
+        }
+        </MudTd>
+
+    </RowTemplate>
+</MudTable>
+</MudPaper>
+
+<MudTable T="ViewWeeklyPerformance" Items="@_viewWeekly" Context="weekly"  Hover="true" SortLabel="Sort By" FixedHeader="true" Height="270px" >
+    <HeaderContent>
+        <MudTh>Weekly</MudTh>
+        <MudTh>Closing</MudTh>
+        <MudTh>RSI14W</MudTh>
+        <MudTh>Lvl% 5Y</MudTh>
+        <MudTh>MFI14W</MudTh>
+        <MudTh>Lvl% 5Y</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+
+        <MudTd >@weekly.Date.ToString("MMM-dd")</MudTd>
+
+        <MudTd >
+        @if (weekly.EowUp)
+        {
+        <span style="color:green">@weekly.EowClose.ToString("0.00")</span>
+        }
+        else
+        {
+        <span style="color:red">@weekly.EowClose.ToString("0.00")</span>
+        }
+        </MudTd>
+
+        <MudTd >
+        @if (weekly.RSI14W.HasValue && weekly.RSI14WUp == true )
+        {
+        <span style="color:green">@weekly.RSI14W.Value.ToString("0.00")</span>
+        }
+        else if (weekly.RSI14W.HasValue && weekly.RSI14WUp == false )
+        {
+        <span style="color:red">@weekly.RSI14W.Value.ToString("0.00")</span>
+        }
+        </MudTd>
+
+        <MudTd >
+        @if (weekly.RSI14Wlvl.HasValue && weekly.RSI14WlvlUp == true )
+        {
+        <span style="color:green">@weekly.RSI14Wlvl.Value%</span>
+        }
+        else if (weekly.RSI14Wlvl.HasValue && weekly.RSI14WlvlUp == false )
+        {
+        <span style="color:red">@weekly.RSI14Wlvl.Value%</span>
+        }
+        </MudTd>
+
+        <MudTd >
+        @if (weekly.MFI14W.HasValue && weekly.MFI14WUp == true )
+        {
+        <span style="color:green">@weekly.MFI14W.Value.ToString("0.00")</span>
+        }
+        else if (weekly.MFI14W.HasValue && weekly.MFI14WUp == false )
+        {
+        <span style="color:red">@weekly.MFI14W.Value.ToString("0.00")</span>
+        }
+        </MudTd>
+
+        <MudTd >
+        @if (weekly.MFI14Wlvl.HasValue && weekly.MFI14WlvlUp == true )
+        {
+        <span style="color:green">@weekly.MFI14Wlvl.Value%</span>
+        }
+        else if (weekly.MFI14Wlvl.HasValue && weekly.MFI14WlvlUp == false )
+        {
+        <span style="color:red">@weekly.MFI14Wlvl.Value%</span>
+        }
+        </MudTd>
+
+    </RowTemplate>
+</MudTable>

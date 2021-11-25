@@ -1,0 +1,9 @@
+﻿@using PFS.Shared.UiTypes
+
+<MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnButtonEditSave" >@(_buttonTextEditSave)</MudButton>
+@_headerInfo
+<MudTextField T="string" Label="Overview" ReadOnly="@_viewMode" Variant="Variant.Outlined" @bind-Value="@_editingOverview" Lines="5" MaxLength="3000" />
+
+<WidgTagGroupEdit @ref="_widgTagGroupEdit" STID="@STID" />
+
+<MudTextField T="string" Label="Notes" ReadOnly="@(_viewMode == true || _allowLocalStorage == false ? true : false)" Variant="Variant.Outlined" @bind-Value="@_editingBodyText"  Lines="30" MaxLength="60000" />

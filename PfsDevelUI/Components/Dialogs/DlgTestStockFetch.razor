@@ -1,0 +1,43 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+@using PFS.Shared.Types
+
+<MudDialog>
+
+    <DialogContent>
+    @if ( _fetchMode == true )
+    {
+        <MudContainer Style="max-height: 300px; overflow-y: scroll">
+            @if (string.IsNullOrEmpty(_content) == true)
+            {
+                <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+            }
+            else
+            {
+                <MudText Style="white-space: pre-wrap;">@_content</MudText>
+            }
+        </MudContainer>
+    }
+    else
+    {
+        <MudSelect T="MarketMeta" Label="Market" Strict="true" Variant="Variant.Outlined" Format="F2" ValueChanged="MarketSelectionChanged" >
+        @{
+            foreach (MarketMeta market in _markets)
+            {
+                <MudSelectItem  T="MarketMeta" Value="@market">@market.ID [@market.Name]</MudSelectItem>
+            }
+        }
+        </MudSelect>
+
+        <MudTextField @bind-Value="_manualTicker" Label="Ticker" Variant="Variant.Outlined" />
+    }
+    </DialogContent>
+
+    <DialogActions>
+        @if (_fetchMode == false)
+        {
+        <MudButton OnClick="DlgManualTestAsync">Test</MudButton>
+        }
+        <MudButton OnClick="DlgCancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>

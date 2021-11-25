@@ -1,0 +1,485 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Shared.UiTypes
+
+@if (_report == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MudTable T="ViewReportStockTableData" Items="@_report" Hover="true" SortLabel="Sort By" FixedHeader="true" Height="650px" OnRowClick="@(args => OnRowClicked(args))" >
+        <ColGroup>
+            @if ( _allowIndicators == false )
+            {
+                <col style="width: 5%;" />  @* Ticker *@
+                <col style="width: 35%;" /> @* Company *@
+                <col style="width: 10%;" /> @* Latest *@
+                <col style="width: 5%;" />  @* Alarm Under *@
+                @if (_showAlarmOverColumn == true)
+                {
+                    <col style="width: 5%;" />  @* Alarm Over *@
+                }
+                @if (_showProfitColumn == true)
+                {
+                <col style="width: 10%;" /> @* Profit *@
+                }
+                @if (_showIntradayColumn == true)
+                {
+                <col style="width: 5%;" />
+                }
+            }
+            else
+            {
+                <col style="width: 5%;" />  @* Ticker *@
+                <col style="width: 35%;" /> @* Company *@
+                <col style="width: 10%;" /> @* Latest *@
+                <col style="width: 5%;" />  @* Alarm Under *@
+                @if (_showAlarmOverColumn == true)
+                {
+                    <col style="width: 5%;" />  @* Alarm Over *@
+                }
+                <col style="width: 5%;" />  @* RSI14D *@
+                <col style="width: 5%;" />  @* RSI14W *@
+                <col style="width: 5%;" />  @* MFI14D *@
+                <col style="width: 5%;" />  @* MFI14W *@
+                @if (_showProfitColumn == true)
+                {
+                <col style="width: 10%;" /> @* Profit *@
+                }
+                @if (_showIntradayColumn == true)
+                {
+                <col style="width: 5%;" />
+                }
+            }
+        </ColGroup>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.Ticker)">Ticker</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.Name)">Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.LatestChangeP)">Latest</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.AlarmUnderP)">A-Under%</MudTableSortLabel></MudTh>
+            @if (_showAlarmOverColumn == true)
+            {
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.AlarmOverP)">A-Over%</MudTableSortLabel></MudTh>
+            }
+            @if (_allowIndicators == true)
+            {
+                @if ( _allowIndicatorsLvls == true )
+                {
+                <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.RSI14D)">RSI14D 1Y%</MudTableSortLabel></MudTh>            
+                <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.RSI14W)">RSI14W 5Y%</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.MFI14D)">MFI14D 1Y%</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.MFI14W)">MFI14W 5Y%</MudTableSortLabel></MudTh>
+                }
+                else
+                {
+                <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.RSI14D)">RSI14D</MudTableSortLabel></MudTh>            
+                <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.RSI14W)">RSI14W</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.MFI14D)">MFI14D</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.MFI14W)">MFI14W</MudTableSortLabel></MudTh>
+                }
+            }
+            <!--   
+            <MudTh>90EOD</MudTh>
+            -->
+            @if (_showProfitColumn == true)
+            {
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.ProfitP)">Profit %</MudTableSortLabel></MudTh>
+            }
+            @if (_showIntradayColumn == true)
+            {
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportStockTableData, object>(x=>x.d.LatestDate)">Day</MudTableSortLabel></MudTh>
+            }
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd><MudButton Variant="Variant.Filled" FullWidth=false Color="Color.Secondary" Size="Size.Small" @onclick="@(() => ViewStockRequested(@context.d.STID))" >$@context.d.Ticker</MudButton></MudTd>
+            <MudTd>
+                @if ( string.IsNullOrEmpty(context.OrderDetails) == true )
+                {
+                    @context.d.Name
+                }
+                else
+                {
+		            <div class="col"> <div class="row">
+			            @context.d.Name
+		            </div>			  <div class="row">
+			            <span style="color:blue"><b>@context.OrderDetails</b></span>
+		            </div>		      </div>
+                }
+            </MudTd>
+
+            @if (context.d.IsUpToDate == true && context.d.LatestChangeP.HasValue == false )
+            {
+                <MudTd>@context.d.Latest.Value.ToString("0.00")@context.Currency</MudTd>
+            }
+            else if (context.d.IsUpToDate == true && context.d.LatestChangeP.HasValue )
+            {
+                <MudTd>
+                	<div class="col"> <div class="row">
+			            @context.d.Latest.Value.ToString("0.00")@context.Currency
+		            </div>			  <div class="row">
+                        @if ( context.d.LatestChangeP.Value < 0 )
+                        {
+			            <span style="color:red"><b>@context.d.LatestChangeP.Value.ToString("0.0")%&nbsp;</b></span>
+                        }
+                        else
+                        {
+                        <b>@context.d.LatestChangeP.Value.ToString("0.0")%</b>
+                        }
+		            </div>		      </div>
+                </MudTd>
+                
+            }
+            else if (context.d.IsUpToDate == false && context.d.Latest.HasValue == true )
+            {
+                <MudTd><MudAlert Severity="Severity.Warning">@context.d.Latest.Value.ToString("0.00")</MudAlert></MudTd>
+            }
+            else
+            {
+                <MudTd></MudTd>   
+            }
+
+            @if (context.d.AlarmUnderP >= 0)
+            {
+                <MudTd>
+                    <MudAlert Severity="Severity.Error">@context.d.AlarmUnderP%</MudAlert>
+                </MudTd>
+            }
+            else if ( context.d.AlarmUnderWatch == true )
+            {
+                <MudTd>
+                    <MudAlert Severity="Severity.Warning">@context.d.AlarmUnderP%</MudAlert>
+                </MudTd>
+            }
+            else if (context.d.AlarmUnderP.HasValue )
+            {
+                <MudTd>@context.d.AlarmUnderP%</MudTd>
+            }
+            else
+            {
+                <MudTd></MudTd>
+            }
+
+            @if (_showAlarmOverColumn == true)
+            {
+                @if (context.d.AlarmOverP >= 0)
+                {
+                    <MudTd>
+                        <MudAlert Severity="Severity.Error">@context.d.AlarmOverP%</MudAlert>
+                    </MudTd>
+                }
+                else if (context.d.AlarmOverWatch == true)
+                {
+                    <MudTd>
+                        <MudAlert Severity="Severity.Warning">@context.d.AlarmOverP%</MudAlert>
+                    </MudTd>
+                }
+                else if ( context.d.AlarmOverP.HasValue )
+                {
+                    <MudTd>@context.d.AlarmOverP%</MudTd>
+                }
+                else
+                {
+                    <MudTd></MudTd>
+                }   
+            }
+
+<!--            
+            <MudTooltip Text="@context.d.AlarmUnderTT" Inline="false">  bit better w these inlines
+                <MudTd>@context.d.AlarmUnderP</MudTd>
+            </MudTooltip>
+            <MudTooltip Text="@context.d.AlarmOverTT" Inline="false">
+                <MudTd>@context.d.AlarmOverP</MudTd>
+            </MudTooltip>
+-->
+
+            @if (_allowIndicators == true)
+            {
+                <MudTd>
+                @if (context.d.RSI14D.HasValue == true )
+                {
+                    @if (string.IsNullOrWhiteSpace(context.ViewRSI14Dlvl) == true || _allowIndicatorsLvls == false )
+                    {
+                        @context.d.RSI14D.Value.ToString("0")
+                    }
+                    else
+                    {
+                        <div class="col"> <div class="row">
+                            @context.d.RSI14D.Value.ToString("0")
+                        </div>			  <div class="row">
+                            @context.ViewRSI14Dlvl
+                        </div>		      </div>
+                    }
+                }   
+                </MudTd>
+            }
+
+            @if (_allowIndicators == true)
+            {
+                <MudTd>
+                @if (context.d.RSI14W.HasValue == true )
+                {
+                    @if (string.IsNullOrWhiteSpace(context.ViewRSI14Wlvl) == true || _allowIndicatorsLvls == false )
+                    {
+                        @context.d.RSI14W.Value.ToString("0")
+                    }
+                    else
+                    {
+                        <div class="col"> <div class="row">
+                            @context.d.RSI14W.Value.ToString("0")
+                        </div>			  <div class="row">
+                            @context.ViewRSI14Wlvl
+                        </div>		      </div>
+                    }
+                }   
+                </MudTd>
+            }
+
+            @if (_allowIndicators == true)
+            {
+                <MudTd>
+                @if (context.d.MFI14D.HasValue == true )
+                {
+                    @if (string.IsNullOrWhiteSpace(context.ViewMFI14Dlvl) == true || _allowIndicatorsLvls == false )
+                    {
+                        @context.d.MFI14D.Value.ToString("0")
+                    }
+                    else
+                    {
+                        <div class="col"> <div class="row">
+                            @context.d.MFI14D.Value.ToString("0")
+                        </div>			  <div class="row">
+                            @context.ViewMFI14Dlvl
+                        </div>		      </div>
+                    }
+                }   
+                </MudTd>
+            }
+
+            @if (_allowIndicators == true)
+            {
+                <MudTd>
+                    @if (context.d.MFI14W.HasValue == true)
+                    {
+                        @if (string.IsNullOrWhiteSpace(context.ViewMFI14Wlvl) == true || _allowIndicatorsLvls == false )
+                        {
+                            @context.d.MFI14W.Value.ToString("0")
+                        }
+                        else
+                        {
+                            <div class="col"> <div class="row">
+                                    @context.d.MFI14W.Value.ToString("0")
+                                </div>			  <div class="row">
+                                    @context.ViewMFI14Wlvl
+                                </div>		      </div>
+                        }
+                    }   
+                </MudTd>
+            }
+
+            <!--  
+            <MudTd><img src="@context.Graph90DaysEOD" /></MudTd>
+            -->
+            @if (_showProfitColumn == true)
+            {
+                @if (context.d.ProfitP == null || context.d.ProfitAmount == null)
+                {
+                    <MudTd></MudTd>
+                }
+                else if (context.d.ProfitP < 0)
+                {
+                    <MudTd>
+                        <div class="col"> <div class="row">
+                                <span style="color:red">@(context.d.ProfitP + "% " + context.d.ProfitAmount + context.Currency)</span>
+                            </div>			  <div class="row">
+                                @if (context.d.HcProfitP.HasValue)
+                                {
+                                    <span style="color:red">@(context.d.HcProfitP + "% " + context.d.HcProfitAmount + context.DualCurrency)</span>
+                                }
+                            </div>		      </div>
+                    </MudTd>
+                }
+                else
+                {
+                    <MudTd>
+                        <div class="col"> <div class="row">
+                                <span style="color:black">@(context.d.ProfitP+"% "+context.d.ProfitAmount + context.Currency)</span>
+                            </div>			  <div class="row">
+                                @if (context.d.HcProfitP.HasValue)
+                                {
+                                    <span style="color:black">@(context.d.HcProfitP + "% " + context.d.HcProfitAmount + context.DualCurrency)</span>
+                                }
+                            </div>		      </div>
+                    </MudTd>
+                }
+            }
+
+            @if (_showIntradayColumn == true && context.d.IsIntraday == false && context.d.IsUpToDate == true)
+            {
+                <MudTd>@(context.d.LatestDate.HasValue == true ? context.d.LatestDate.Value.ToString("MMM-dd") : "-wha?-")</MudTd>
+            }
+            else if (_showIntradayColumn == true && context.d.IsIntraday == false && context.d.IsUpToDate == false)
+            {
+                <MudTd> 
+                    <MudAlert Severity="Severity.Warning">
+                        @(context.d.LatestDate.HasValue == true ? context.d.LatestDate.Value.ToString("MMM-dd") : "-no data-")
+                    </MudAlert>
+                </MudTd>
+            }
+            else if (_showIntradayColumn == true && context.d.IsIntraday == true)
+            {
+                <MudTd> 
+                    <MudAlert Severity="Severity.Normal">
+                        @(context.d.LatestDate.HasValue == true ? context.d.LatestDate.Value.ToString("HH:mm") : "-wha?-")    
+                    </MudAlert>
+                </MudTd>
+            }
+
+        </RowTemplate>
+        <ChildRowContent>
+            @if (context.ShowDetails)
+            {
+                <MudTr>
+                <td colspan="10"> <!-- !!!NOTE!!! <= This is amount of columns on table that popdown extens to -->
+                    <MudTabs Elevation="1" Rounded="true" PanelClass="pa-6">
+                        <MudTabPanel Text="Overview" >
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="row">
+                                            @if (context.GoogleFinances != "")
+                                            {
+                                                <MudFab Icon="@Icons.Custom.Brands.Google"
+                                                        Label="Google Finances"
+                                                        Link="@context.GoogleFinances"
+                                                        Target="_blank" />
+                                            }
+                                        </div>
+                                        <div class="row">
+                                            @if (context.TradingView != "")
+                                            {
+                                                <MudFab Icon="@Icons.Material.Filled.Navigation"
+                                                        Label="Trading View"
+                                                        Link="@context.TradingView"
+                                                        Target="_blank" />
+                                            }
+                                        </div>
+                                        <div class="row">
+                                            @if (context.YahooFinances != "")
+                                            {
+                                                <MudFab Icon="@Icons.Material.Filled.Navigation"
+                                                        Label="Yahoo Finances"
+                                                        Link="@context.YahooFinances"
+                                                        Target="_blank" />
+                                            }
+                                        </div>
+                                        <div class="row">
+                                            @if (context.StockTwitch != "")
+                                            {
+                                                <MudFab Icon="@Icons.Material.Filled.Navigation"
+                                                        Label="Stock Twitch"
+                                                        Link="@context.StockTwitch"
+                                                        Target="_blank" />
+                                            }
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <WidgNoteOverview STID="@context.d.STID"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="row">
+                                            <MudButton Variant="Variant.Filled" FullWidth=false Color="Color.Secondary" Size="Size.Small"  @onclick="@(() => OnBtnLastStockEdit(@context))">Edited: @context.d.LastStockEdit.ToString("yyyy-MMM-dd")</MudButton>
+                                            <br />
+                                        </div>
+                                        @if (ViewBtnAddOrder == true && context.d.Latest.HasValue)
+                                        {
+                                        <div class="row">
+                                            <MudButton Variant="Variant.Filled" FullWidth=false Color="Color.Secondary" Size="Size.Small" @onclick="@(() => ViewAddOrderDialogAsync(@context))" >Add Order</MudButton>
+                                        </div>
+                                        }
+                                        @if (ViewBtnAddHolding == true && context.d.Latest.HasValue)
+                                        {
+                                        <div class="row">
+                                            <MudButton Variant="Variant.Filled" FullWidth=false Color="Color.Secondary" Size="Size.Small" @onclick="@(() => ViewAddHoldingsDialogAsync(@context))" >Add Holding</MudButton>
+                                        </div>
+                                        }
+                                        @if (ViewBtnAddDivident == true && context.d.Latest.HasValue && context.d.Holdings.Count() > 0)
+                                        {
+                                        <div class="row">
+                                            <MudButton Variant="Variant.Filled" FullWidth=false Color="Color.Secondary" Size="Size.Small" @onclick="@(() => ViewAddDividentDialogAsync(@context))" >Add Divident</MudButton>
+                                        </div>
+                                        }
+                                        @if (ViewBtnSaleHolding == true && context.d.Latest.HasValue && context.d.Holdings.Count() > 0 )
+                                        {
+                                        <div class="row">
+                                            <MudButton Variant="Variant.Filled" FullWidth=false Color="Color.Secondary" Size="Size.Small" @onclick="@(() => ViewSaleHoldingDialogAsync(@context))" >Sale Holding(s)</MudButton>
+                                        </div>
+                                        }
+                                        @if (ViewBtnRemoveStock == true)
+                                        {
+                                        <div class="row">
+                                            <MudButton Variant="Variant.Filled" FullWidth=false Color="Color.Secondary" Size="Size.Small" @onclick="@(() => RemoveStockFromStockGroupAsync(@context.d.STID))" >Remove Stock</MudButton>
+                                        </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </MudTabPanel>
+
+                        @if (context.d.Alarms != null && context.d.Alarms.Count > 0)
+                        {
+                            <MudTabPanel Text="Alarms" >
+                                <StockAlarmEdit AllowEditing="false" STID="@context.d.STID" />
+                            </MudTabPanel>
+                        }
+                        else
+                        {
+                            <MudTabPanel Text="No Alarms" Disabled="true" >
+                            </MudTabPanel>
+                        }
+                        
+                        @if (context.d.Orders != null && context.d.Orders.Count > 0)
+                        {
+                            <MudTabPanel Text="Orders" >
+                                <StockOrdersView Orders="@context.d.Orders" Currency="@context.d.Currency" />
+                            </MudTabPanel>
+                        }
+                        else
+                        {
+                            <MudTabPanel Text="No Orders" Disabled="true" >
+                            </MudTabPanel>
+                        }
+
+                        @if (context.d.ViewHoldings != null && context.d.ViewHoldings.Count > 0)
+                        {
+                            <MudTabPanel Text="Holdings" >
+                                <StockTableHoldings Holdings="@context.d.ViewHoldings" Currency="@context.d.Currency"/>
+                            </MudTabPanel>
+                        }
+                        else
+                        {
+                            <MudTabPanel Text="No Holdings" Disabled="true" >
+                            </MudTabPanel>
+                        }
+
+                        @if (context.d.ViewDividents != null && context.d.ViewDividents.Count > 0)
+                        {
+                            <MudTabPanel Text="Dividents" >
+                                <StockTableDividents Dividents="@context.d.ViewDividents" Currency="@context.d.Currency" />
+                            </MudTabPanel>
+                        }
+                        else
+                        {
+                            <MudTabPanel Text="No Dividents" Disabled="true" >
+                            </MudTabPanel>
+                        }
+                    </MudTabs>
+                </td>
+                </MudTr>
+            }
+        </ChildRowContent>
+    </MudTable>
+}

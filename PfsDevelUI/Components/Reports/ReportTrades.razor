@@ -1,0 +1,115 @@
+﻿@namespace PfsDevelUI.Components
+
+@if (_viewReport == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MudTable T="ViewReportTradeData" Items="@_viewReport" Hover="true" SortLabel="Sort By" FixedHeader="true" Height="600px" OnRowClick="@(args => OnRowClicked(args))" >
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportTradeData, object>(x=>x.d.Ticker)">Ticker</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportTradeData, object>(x=>x.d.Name)">Company</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportTradeData, object>(x=>x.d.SaleDate)">Sold</MudTableSortLabel></MudTh>
+            <MudTh>Units</MudTh>
+            <MudTh>Invested</MudTh>
+            <MudTh>Sold</MudTh>
+            <MudTh>Profit</MudTh>
+            <MudTh>Remove</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd><MudButton Variant="Variant.Filled" FullWidth=false Color="Color.Secondary" Size="Size.Small" @onclick="@(() => ViewStockRequested(@context.d.STID))" >$@context.d.Ticker</MudButton></MudTd>
+            <MudTd>@context.d.Name</MudTd>
+            <MudTd>@context.d.SaleDate.ToString("yyyy-MM-dd")</MudTd>
+            <MudTd>@context.d.SoldUnits.ToString("0.0")</MudTd>
+
+            @if ( context.d.HcInvested.HasValue )
+            {
+            <MudTd>
+                <div class="col"> <div class="row">
+                    @context.d.Invested.ToString("0")@context.Currency
+		        </div>			  <div class="row">
+                    @context.d.HcInvested.Value.ToString("0")@context.DualCurrency
+		        </div>		      </div>
+            </MudTd>
+            }
+            else
+            {
+            <MudTd>@context.d.Invested.ToString("0")@context.Currency</MudTd>
+            }
+
+            @if ( context.d.HcSold.HasValue )
+            {
+            <MudTd>
+                <div class="col"> <div class="row">
+                    @context.d.Sold.ToString("0")@context.Currency
+		        </div>			  <div class="row">
+                    @context.d.HcSold.Value.ToString("0")@context.DualCurrency
+		        </div>		      </div>
+            </MudTd>
+            }
+            else
+            {
+            <MudTd>@context.d.Sold.ToString("0")@context.Currency</MudTd>
+            }
+
+            @if ( context.d.HcProfitP.HasValue )
+            {
+            <MudTd>
+                <div class="col"> <div class="row">
+                    @context.d.ProfitP% @((context.d.Sold - context.d.Invested).ToString("0"))@context.Currency
+		        </div>			  <div class="row">
+                    @context.d.HcProfitP.Value%  @((context.d.HcSold.Value - context.d.HcInvested.Value).ToString("0"))@context.DualCurrency
+		        </div>		      </div>
+            </MudTd>
+            }
+            else
+            {
+            <MudTd>@context.d.ProfitP% @((context.d.Sold - context.d.Invested).ToString("0"))@context.Currency</MudTd>
+            }
+
+            <MudTd><MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="remove" @onclick="@(() => OnBtnRemoveTradeAsync(@context))" /></MudTd>
+
+        </RowTemplate>
+
+        <ChildRowContent>
+        @if (context.ShowDetails == true)
+        {
+            <MudTr>
+            <td colspan="10"> <!-- !!!NOTE!!! <= This is amount of columns on table that popdown extens to -->
+
+            <MudTable T="ViewReportTradeHoldings" Items="@context.ViewHoldings" Hover="true" FixedHeader="true">
+                <HeaderContent>
+                    <MudTh>Purhaced</MudTh>
+                    <MudTh>Price In/Out</MudTh>
+                    <MudTh>Units Total/Sold</MudTh>
+                    <MudTh>Profit</MudTh>
+                </HeaderContent>
+                <RowTemplate Context="dropdown" >
+                    <MudTd>@dropdown.d.PurhaceDate.ToString("yyyy-MM-dd")</MudTd>
+                    <MudTd>@dropdown.d.PurhaceUnitPrice.ToString("0.00")@context.Currency / @dropdown.d.SoldUnitPrice.ToString("0.00")@context.Currency</MudTd>
+                    <MudTd>@dropdown.d.PurhacedUnits.ToString("0") / @dropdown.d.SoldUnits.ToString("0")</MudTd>
+
+                    @if ( dropdown.d.HcProfitP.HasValue )
+                    {
+                    <MudTd>
+                        <div class="col"> <div class="row">
+                            @dropdown.d.ProfitP% @((dropdown.d.Sold - dropdown.d.Invested).ToString("0"))@context.Currency
+		                </div>			  <div class="row">
+                            @dropdown.d.HcProfitP.Value%  @((dropdown.d.HcSold.Value - dropdown.d.HcInvested.Value).ToString("0"))@context.DualCurrency
+		                </div>		      </div>
+                    </MudTd>
+                    }
+                    else
+                    {
+                    <MudTd>@dropdown.d.ProfitP% @((dropdown.d.Sold - dropdown.d.Invested).ToString("0"))@context.Currency</MudTd>
+                    }
+                </RowTemplate>
+            </MudTable>
+            </td>
+            </MudTr>
+        }
+        </ChildRowContent>
+
+    </MudTable>
+}

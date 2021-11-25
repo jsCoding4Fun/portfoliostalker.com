@@ -1,0 +1,125 @@
+﻿@namespace PfsDevelUI.Components
+
+@if (_viewReport == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MudTable T="ViewReportHoldingsData" Items="@_viewReport" Hover="true" SortLabel="Sort By" FixedHeader="true" Height="600px" >
+        <HeaderContent>
+            @if (string.IsNullOrEmpty(PfName))
+            {
+            <MudTh>Portfolio</MudTh>
+            }
+            @if (STID == Guid.Empty)
+            {
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportHoldingsData, object>(x=>x.d.Ticker)">Ticker</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportHoldingsData, object>(x=>x.d.Name)">Company</MudTableSortLabel></MudTh>
+            }
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportHoldingsData, object>(x=>x.d.Holding.PurhaceDate)">Purhaced</MudTableSortLabel></MudTh>
+            <MudTh>Units</MudTh>
+            <MudTh>Avrg.Price</MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportHoldingsData, object>(x=>x.SortOnInvested)">Invested</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportHoldingsData, object>(x=>x.d.ProfitP)">Profit</MudTableSortLabel></MudTh>
+            @if ( _viewDividentColumn == true )
+            {
+            <MudTh>Div Gained L/%/T/%</MudTh>
+            }
+            <MudTh>Edit</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            @if (string.IsNullOrEmpty(PfName))
+            {
+            <MudTd>@context.d.PfName</MudTd>
+            }
+            @if (STID == Guid.Empty)
+            {
+            <MudTd><MudButton Variant="Variant.Filled" FullWidth=false Color="Color.Secondary" Size="Size.Small" @onclick="@(() => ViewStockRequested(@context.d.Holding.STID))" >$@context.d.Ticker</MudButton></MudTd>
+            <MudTd>@context.d.Name</MudTd>
+            }
+            <MudTd>@context.d.Holding.PurhaceDate.ToString("yyyy-MM-dd")</MudTd>
+            <MudTd>@context.Units</MudTd>
+            <MudTd>@context.d.AvrgPrice.ToString("0.00")@context.Currency</MudTd>
+
+            @if ( context.d.HcInvested.HasValue )
+            {
+                <MudTd>
+                    <div class="col"> <div class="row">
+
+                        @context.d.Invested.ToString("0")@context.Currency
+		            </div>			  <div class="row">
+                        @context.d.HcInvested.Value.ToString("0")@context.HomeCurrency
+		            </div>		      </div>
+                </MudTd>
+            }
+            else
+            {
+                <MudTd>@context.d.Invested.ToString("0")@context.Currency</MudTd>
+            }
+
+            @if ( context.d.ProfitP < 0 )
+            {
+                <MudTd>
+                    <div class="col"> <div class="row">
+                        <span style="color:red">@(context.d.ProfitP.ToString("0.00") + "% " + context.d.ProfitAmount + context.Currency)</span>
+		            </div>			  <div class="row">
+                        @if ( context.d.HcProfitP.HasValue )
+                        {
+                        <span style="color:red">@(context.d.HcProfitP.Value.ToString("0.00") + "% " + context.d.HcProfitAmount.Value + context.HomeCurrency)</span>
+                        }
+		            </div>		      </div>
+                </MudTd>
+            }
+            else
+            {
+                <MudTd>
+                    <div class="col"> <div class="row">
+                        @(context.d.ProfitP.ToString("0.00") + "% " + context.d.ProfitAmount + context.Currency)
+		            </div>			  <div class="row">
+                        @if ( context.d.HcProfitP.HasValue )
+                        {
+                        @(context.d.HcProfitP.Value.ToString("0.00") + "% " + context.d.HcProfitAmount.Value + context.HomeCurrency)
+                        }
+		            </div>		      </div>
+                </MudTd>
+            }
+
+            @if ( _viewDividentColumn == true )
+            {
+                @if ( context.d.DividentLast.HasValue == true )
+                {
+                    <MudTd>
+                        <div class="col"> 
+                            <div class="row">
+                            @*  Market currency, showing last + total dividents for holding  *@
+                            @(context.d.DividentLast.Value.ToString("0") + context.Currency + " "
+                            + context.d.DividentLastP.Value.ToString("0.0") + "% "
+                            + context.d.DividentTotal.Value.ToString("0") + context.Currency + " "
+                            + context.d.DividentTotalP.Value.ToString("0.0") + "%")
+		                    </div>			  
+                    
+                            @* Home Currency, dual row w same info in case market currency is not home currency *@
+                            @if (context.d.HcDividentLast.HasValue == true && context.d.Currency != context.d.HomeCurrency)
+                            {
+                                <div class="row">
+                                @(context.d.HcDividentLast.Value.ToString("0") + context.HomeCurrency + " "
+                                + context.d.HcDividentLastP.Value.ToString("0.0")  + "% "
+                                + context.d.HcDividentTotal.Value.ToString("0") + context.HomeCurrency + " "
+                                + context.d.HcDividentTotalP.Value.ToString("0.0") + "%")
+		                        </div>		      
+                            }
+                        </div>
+                    </MudTd>
+                }
+                else
+                {
+                    <MudTd></MudTd>
+                }
+            }
+
+            <MudTd><MudIconButton Icon="@Icons.Material.Filled.ModeEdit" aria-label="delete" @onclick="@(() => OnBtnEditEventAsync(@context))" /></MudTd>
+        </RowTemplate>
+
+    </MudTable>
+}

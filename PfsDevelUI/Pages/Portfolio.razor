@@ -1,0 +1,35 @@
+﻿@page "/Portfolio/{PfName}"
+@using PfsDevelUI.Components
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <PageHeader AddUnderBtnText="AddStockGroup" OnAddUnder="OnPageHeaderAddStockGroupAsync" 
+                MenuItems="@HeaderMenuItems" OnMenuSelEventAsync="OnMenuSelEventAsync" />
+</div>
+
+<MudTabs Elevation="1" Rounded="true" PanelClass="pa-6">
+    <MudTabPanel Text="Events" >
+        <ReportUserEvents PfName="@PfName" />
+    </MudTabPanel>
+    <MudTabPanel Text="Watch Alarms" >
+        <ReportStockTable ViewBtnAddHolding="true" ViewBtnAddOrder="true" ViewBtnSaleHolding="true" ViewBtnAddDivident="true"
+                          PfName ="@PfName" SgName="" 
+                          ReportType="@ReportStockTable.ReportTypeID.PORTFOLIO_WATCH" />
+    </MudTabPanel>
+    <MudTabPanel Text="All Stocks" >
+        <ReportStockTable ViewBtnAddHolding="true" ViewBtnAddOrder="true" ViewBtnSaleHolding="true" ViewBtnAddDivident="true"
+                          PfName ="@PfName" SgName="" 
+                          ReportType="@ReportStockTable.ReportTypeID.PORTFOLIO" />
+    </MudTabPanel>
+    <MudTabPanel Text="Invested" >
+        <ReportInvested PfName="@PfName" />
+    </MudTabPanel>
+    <MudTabPanel Text="Sales History" >
+        <ReportTrades PfName="@PfName" />
+    </MudTabPanel>
+    @if (_isDemoAccount == false)
+    {
+    <MudTabPanel Text="Import Transactions" >
+        <TabImportTransactions PfName="@PfName" />
+    </MudTabPanel>
+    }
+</MudTabs>

@@ -1,0 +1,28 @@
+﻿@using PFS.Types
+@using PFS.Shared.Types
+
+@if (_viewAlarms != null)
+{
+    <MudTable T="StockAlarm" Items="@_viewAlarms" @bind-SelectedItem="_selectedAlarm" OnRowClick="@(args => OnRowClickedAsync(args))" >
+        <ColGroup>
+            <col style="width: 10%;" />
+            <col style="width: 10%;" />
+            <col style="width: 10%;" />
+            <col style="width: 50%;" />
+            @if (AllowEditing == true)
+            {
+                <col style="width: 10%;" />
+            }
+        </ColGroup>
+        <RowTemplate>
+            <MudTd DataLabel="Type">@context.Type</MudTd>
+            <MudTd DataLabel="Value">@context.Value@UiF.Curr(_marketMeta.Currency)</MudTd>
+            <MudTd DataLabel="Value">@(context.Param1 == 0.0M ? "" : context.Param1)</MudTd>
+            <MudTd DataLabel="Note">@context.Note</MudTd>
+            @if (AllowEditing == true)
+            {
+                <MudTd><MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnEditAlarmAsync(@context.Value))" >EDIT</MudButton></MudTd>
+            }
+        </RowTemplate>
+    </MudTable>
+}

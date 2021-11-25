@@ -1,0 +1,57 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+@using PFS.Shared.Types;
+
+<MudCard>
+    <MudCardContent>
+        <MudText Typo="Typo.body2">
+            By default Portfolio Stalker (PFS) -web application is doing majority of operations as a application run inside
+            of your browser. Its run as WASM application, and it uses PFS Server minimally. PFS Server does NOT provide
+            any stock market history data, not even latest stock closing valuations. All market valuations must be fetched by 
+            your PFS -web application. This requires that your subscript at least one of providers below with free account!
+        </MudText>
+        <br />
+        <MudText Typo="Typo.body2">
+            To get market data, YOU NEED TO ENTER YOUR OWN KEYS and then on Market Provider settings use that Provider for selected markets.
+            Good news is, those keys are easily available for personal use from stock market data providers. 
+            All providers require only email address for creating free accounts. Additionally operating multiple
+            market those uses different currencies required conversion rates to be fetched. These conversion rates are available 
+            for some of providers, recommendation atm is: Polygon. 
+        </MudText>
+    </MudCardContent>
+</MudCard>
+
+<MudCard Outlined="true">
+    <MudCardContent>
+        @if (_availableProviders != null)
+        {
+        <MudContainer Style="max-height: 300px; overflow-y: scroll">
+            <MudList Clickable="true" SelectedValueChanged="@OnProviderChanged" >    <!-- https://github.com/MudBlazor/MudBlazor/issues/2949 -->
+                @foreach (ExtDataProviders provider in _availableProviders)
+                {
+                    <MudListItem Value="@provider" Text="@_description[provider].Name" />
+                }
+            </MudList>
+        </MudContainer>
+        }
+        @if ( _selectedProvider != ExtDataProviders.Unknown )
+        {
+            <MudText Typo="Typo.body2">Registeration: </MudText>
+            <MudLink Href="@_description[_selectedProvider].Addr" Target=_blank Underline="Underline.Always">@_description[_selectedProvider].Addr</MudLink>
+
+            <MudCardContent>
+                <MudTextField T="string" FullWidth="true" ReadOnly="true" Lines="5" @bind-Value="@_providerDesc" />
+            </MudCardContent>
+    
+            <MudTextField T="string"  @bind-Value="_configs.ProviderKeys[_selectedProvider]" Label="3th Party Personal Access Key" Variant="Variant.Outlined" />
+        }
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnKeySaveAsync" >Save</MudButton>
+        @if ( UseCase == UseCaseID.LOCAL_SETT && _isDemoAccount == false )
+        {
+            <MudSpacer />
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnManualTestAsync" >Test Any Ticker</MudButton>
+        }
+    </MudCardActions>
+</MudCard>

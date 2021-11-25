@@ -1,0 +1,69 @@
+﻿@namespace PfsDevelUI.Components
+
+@if (_viewReport == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MudTable T="ViewPrivSrvReportTrackedStocks" Items="@_viewReport" Hover="true" SortLabel="Sort By" FixedHeader="true" Height="600px" >
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewPrivSrvReportTrackedStocks, object>(x=>x.d.StockMeta.MarketID.ToString())">Market</MudTableSortLabel></MudTh>
+            <MudTh>Ticker</MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewPrivSrvReportTrackedStocks, object>(x=>x.d.StockMeta.Name)">@_headerTextName</MudTableSortLabel></MudTh>
+            <MudTd>Holders</MudTd>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewPrivSrvReportTrackedStocks, object>(x=>x.d.OldestEOD)">First</MudTableSortLabel></MudTh>
+            @if (_allUpToDate == false)
+            {
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewPrivSrvReportTrackedStocks, object>(x=>x.d.LatestEOD)">Last</MudTableSortLabel></MudTh>
+            }
+            @if (_anythingToDelete == true)
+            {
+            <MudTh>Delete</MudTh>
+            }
+            <MudTh>Fetch</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.d.StockMeta.MarketID.ToString()</MudTd>
+            <MudTd>@context.d.StockMeta.Ticker</MudTd>
+            <MudTd>@context.d.StockMeta.Name</MudTd>
+
+            @if ( context.d.UsersTracking.Count() == 0 )
+            {
+                <MudTd></MudTd>
+            }
+            else if ( context.d.UsersTracking.Count() == 1 )
+            {
+                <MudTd>@context.d.UsersTracking[0].Substring(0, Math.Min(context.d.UsersTracking[0].Length, 12))</MudTd>
+            }
+            else
+            {
+                <MudTd>
+                    <MudMenu Label="@context.HoldersLabel">
+                        @foreach( string tracker in context.d.UsersTracking)
+                        {
+                            <MudMenuItem>@tracker</MudMenuItem>
+                        }
+                    </MudMenu>
+                </MudTd>
+            }
+
+            <MudTd>@(context.d.OldestEOD.HasValue == true ? context.d.OldestEOD.Value.ToString("yyyy-MMM-dd") : "-no data-")</MudTd>
+            @if (_allUpToDate == false)
+            {
+            <MudTd>@(context.d.LatestEOD.HasValue == true ? context.d.LatestEOD.Value.ToString("yyyy-MMM-dd") : "-no data-")</MudTd>
+            }
+            @if (_anythingToDelete == true)
+            {
+            <MudTd>    
+            @if (context.d.UsersTracking.Count() == 0)
+            {
+                <MudButton Variant="Variant.Filled" FullWidth=false Color="Color.Secondary" Size="Size.Small" @onclick="@(() => DoDeleteStockAsync(@context.d.StockMeta.STID))" >DELETE</MudButton>
+            }
+            </MudTd>
+            }
+            <MudTd><MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.CloudDownload"
+                                  @onclick="@(() => OnBtnLaunchDlgFetchData(@context.d.StockMeta.STID))" ></MudIconButton></MudTd>
+        </RowTemplate>
+    </MudTable>
+}

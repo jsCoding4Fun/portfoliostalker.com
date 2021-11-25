@@ -1,0 +1,14 @@
+﻿@using PfsDevelUI.PFSLib
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <a class="navbar-brand" href="">PFS Devel UI v@_clientVersion </a> <!-- Also CACHE_VERSION on: service-worker.published.js -->
+</div>
+
+<div class="@NavMenuCssClass">
+    <MudTreeView CanActivate="true" Items="TreeItems" CanHover="true" T="NavTreeElem" ActivatedValueChanged="TreeActivationChanged"  >
+        <ItemTemplate>
+            <MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.TreeItems" Value="@context"
+                             Icon="@context.Icon" Text="@context.Name" />
+        </ItemTemplate>
+    </MudTreeView>
+</div>

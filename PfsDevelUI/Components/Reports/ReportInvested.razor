@@ -1,0 +1,276 @@
+﻿@namespace PfsDevelUI.Components
+
+@if (_viewReport == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MudTable T="ViewReportInvestedData" Items="@_viewReport" Hover="true" SortLabel="Sort By" FixedHeader="true" Height="600px" OnRowClick="@(args => OnRowClicked(args))" >
+        <ColGroup>
+            <col style="width: 5%;" />      @* Ticker *@
+            <col style="width: 30%;" />     @* Company *@
+            <col style="width: 5%;" />      @* AvrgPrice *@ 
+            <col style="width: 10%;" />     @* Invested *@ 
+            <col style="width: 10%;" />     @* Valuation *@ 
+            <col style="width: 10%;" />      @* % Total Valuation *@ 
+            <col style="width: 12%;" />      @* Total Div *@ 
+            <col style="width: 13%;" />      @* Total Gain *@ 
+        </ColGroup>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportInvestedData, object>(x=>x.d.Ticker)">Ticker</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportInvestedData, object>(x=>x.d.Name)">@_headerTextCompany</MudTableSortLabel></MudTh>
+            <MudTh>Avrg.Price</MudTh>
+
+            @* "Invested nnnE", on home currency, and if all properly setup then shows total home currency invested amount on header *@ 
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportInvestedData, object>(x=>x.d.HcInvested)">@_headerTextInvested</MudTableSortLabel></MudTh>            
+
+            @* "Valuation +3% nnnE", on home currency, shows todays total valuation of all investments, with colored growth % if all set properly  *@
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportInvestedData, object>(x=>x.d.HcProfitP)">@_headerTextValuation</MudTableSortLabel></MudTh>
+
+            @* % Total Valuation *@ 
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportInvestedData, object>(x=>x.d.HcValuationOfTotalP)">% of Total Valuation</MudTableSortLabel></MudTh>
+
+            @* Total Div *@ 
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportInvestedData, object>(x=>x.d.HcDividentAll)">@_headerTextDivident</MudTableSortLabel></MudTh>
+
+            @* Total Gain *@ 
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportInvestedData, object>(x=>x.d.HcGain)">@_headerTextGain</MudTableSortLabel></MudTh>
+
+        </HeaderContent>
+        <RowTemplate>
+            @* Ticker *@
+            <MudTd><MudButton Variant="Variant.Filled" FullWidth=false Color="Color.Secondary" Size="Size.Small" @onclick="@(() => ViewStockRequested(@context.d.STID))" >$@context.d.Ticker</MudButton></MudTd>
+            @* Company *@
+            <MudTd>@context.d.Name</MudTd>
+            @* AvrgPrice *@ 
+            <MudTd>@context.d.AvrgPrice.ToString("0.00")@context.Currency</MudTd>
+
+            @* Invested (nnnE 1.8%) *@ 
+            @if (context.d.HcInvested.HasValue )
+            {
+                @if (_viewHeader.h.HcTotalInvested.HasValue)
+                {
+                    <MudTd>@context.d.HcInvested.Value.ToString("0")@context.HomeCurrency @context.d.HcInvestedOfTotalP.Value.ToString("0.0")%</MudTd>
+                }
+                else
+                {
+                    <MudTd>@context.d.HcInvested.Value.ToString("0")@context.HomeCurrency</MudTd>
+                }
+            }
+            else
+            {
+                <MudTd>???@context.HomeCurrency</MudTd>
+            }
+
+            @* Valuation (+/-X% nnnE) *@ 
+            @if (context.d.HcValuation.HasValue == true )
+            {
+                <MudTd>
+                @if ( context.d.HcProfitP.HasValue == true )
+                {
+                    @if ( context.d.HcProfitP.Value < 0 )
+                    {
+                    <span style="color:red"><b>@context.d.HcProfitP%&nbsp;</b></span>
+                    }
+                    else
+                    {
+                    <b>+@context.d.HcProfitP%&nbsp;</b>
+                    }
+                }
+
+                @context.d.HcValuation.Value.ToString("0")@context.HomeCurrency &nbsp;
+                </MudTd>
+            }
+            else
+            {
+                <MudTd>???@context.HomeCurrency</MudTd>
+            }
+
+            @* % Total Valuation *@ 
+            @if (_viewHeader.h.HcTotalValuation.HasValue)
+            {
+                
+                <MudTd>@context.d.HcValuationOfTotalP.Value.ToString("0.0")%</MudTd>
+            }
+            else
+            {
+                <MudTd>?%</MudTd>
+            }
+
+            @* Total Div *@ 
+            @if ( context.d.HcDividentAll.HasValue && context.d.HcDividentAll > 0 )
+            {
+                <MudTd>@context.d.HcDividentAll.Value.ToString("0")@context.HomeCurrency &nbsp; @context.d.HcDividentAllP.Value.ToString("0.0")%</MudTd>
+            }
+            else
+            {
+                <MudTd></MudTd>
+            }
+
+            @* Total Gain *@ 
+            @if (@context.d.HcGain >= 0) 
+            {
+                @if ( context.d.HcGainP.HasValue && context.d.HcGainP.Value >= 100 )
+                {
+                <MudTd><span style="color:blue">@context.d.HcGain.ToString("0")@context.HomeCurrency &nbsp;@context.d.HcGainP.Value%</span></MudTd>
+                }
+                else if ( context.d.HcGainP.HasValue )
+                {
+                <MudTd>@context.d.HcGain.ToString("0")@context.HomeCurrency &nbsp;@context.d.HcGainP.Value%</MudTd>
+                }
+                else
+                {
+                <MudTd>@context.d.HcGain.ToString("0")@context.HomeCurrency</MudTd>
+                }
+            }
+            else
+            {
+            <MudTd><span style="color:red">@context.d.HcGain.ToString("0")@context.HomeCurrency &nbsp;@context.d.HcGainP.Value.ToString("0")%</span></MudTd>
+            }
+        </RowTemplate>
+
+        <ChildRowContent>
+        @if (context.ShowDetails == true)
+        {
+            <MudTr>
+            <td colspan="10"> <!-- !!!NOTE!!! <= This is amount of columns on table that popdown extens to -->
+
+            <MudTable T="ViewReportHoldingsData" Items="@context.ViewHoldings" Hover="true" FixedHeader="true">
+                <ColGroup>
+                    @if (string.IsNullOrEmpty(PfName))
+                    {
+                    <col style="width: 15%;" />     @*  *@
+                    }
+                    <col style="width: 7%;" />      @* Purhaced *@
+                    <col style="width: 7%;" />      @* Units *@
+                    <col style="width: 7%;" />      @* Avrg.Price *@
+                    <col style="width: 7%;" />      @* Invested *@
+                    <col style="width: 10%;" />     @* Profit *@
+                    <col style="width: 20%;" />     @* Div Gained L/%/T/% *@
+                    <col style="width: 5%;" />      @*  *@
+                    <col style="width: 5%;" />      @*  *@
+                    <col style="width: 5%;" />      @*  *@
+                </ColGroup>
+                <HeaderContent>
+                    @if (string.IsNullOrEmpty(PfName))
+                    {
+                    <MudTh>Portfolio</MudTh>
+                    }
+                    <MudTh>Purhaced</MudTh>
+                    <MudTh>Units</MudTh>
+                    <MudTh>Avrg.Price</MudTh>
+                    <MudTh>Invested</MudTh>
+                    <MudTh>Profit</MudTh>
+                    <MudTh>Div Last/% Total/%</MudTh>
+                    <MudTh>Avg GainY%</MudTh>
+                    <MudTh>Edit</MudTh>
+                    <MudTh>Sale</MudTh>
+                </HeaderContent>
+                <RowTemplate Context="dropdown" >
+                    @if (string.IsNullOrEmpty(PfName))
+                    {
+                    <MudTd>@dropdown.d.PfName</MudTd>
+                    }
+                    <MudTd>@dropdown.d.Holding.PurhaceDate.ToString("yyyy-MM-dd")</MudTd>
+                    <MudTd>@dropdown.Units</MudTd>
+                    <MudTd>@dropdown.d.AvrgPrice.ToString("0.00")@dropdown.Currency</MudTd>
+
+                    @if ( dropdown.d.HcInvested.HasValue )
+                    {
+                        <MudTd>
+                            <div class="col"> <div class="row">
+
+                                @dropdown.d.Invested.ToString("0")@dropdown.Currency
+		                    </div>			  <div class="row">
+                                @dropdown.d.HcInvested.Value.ToString("0")@dropdown.HomeCurrency
+		                    </div>		      </div>
+                        </MudTd>
+                    }
+                    else
+                    {
+                        <MudTd>@dropdown.d.Invested.ToString("0")@dropdown.Currency</MudTd>
+                    }
+
+                    @if ( dropdown.d.ProfitP < 0 )
+                    {
+                        <MudTd>
+                            <div class="col"> <div class="row">
+                                <span style="color:red">@(dropdown.d.ProfitP + "% " + dropdown.d.ProfitAmount + dropdown.Currency)</span>
+		                    </div>			  <div class="row">
+                                @if ( dropdown.d.HcProfitP.HasValue )
+                                {
+                                <span style="color:red">@(dropdown.d.HcProfitP.Value + "% " + dropdown.d.HcProfitAmount.Value + dropdown.HomeCurrency)</span>
+                                }
+		                    </div>		      </div>
+                        </MudTd>
+                    }
+                    else
+                    {
+                        <MudTd>
+                            <div class="col"> <div class="row">
+                                @(dropdown.d.ProfitP + "% " + dropdown.d.ProfitAmount + dropdown.Currency)
+		                    </div>			  <div class="row">
+                                @if ( dropdown.d.HcProfitP.HasValue )
+                                {
+                                @(dropdown.d.HcProfitP.Value + "% " + dropdown.d.HcProfitAmount.Value + dropdown.HomeCurrency)
+                                }
+		                    </div>		      </div>
+                        </MudTd>
+                    }
+
+                    @if ( dropdown.d.DividentLast.HasValue == true )
+                    {
+                        <MudTd>
+                        <div class="col"> 
+                            @*  Market currency, showing last + total dividents for holding *@
+                            <div class="row">
+                            @dropdown.d.DividentLast.Value.ToString("0")@dropdown.Currency&nbsp;
+                            @dropdown.d.DividentLastP.Value.ToString("0.0")%&nbsp;
+                            @dropdown.d.DividentTotal.Value.ToString("0")@dropdown.Currency&nbsp;
+                            @dropdown.d.DividentTotalP.Value.ToString("0.0")%
+		                    </div>			  
+                            
+                            @* Home Currency, dual row w same info in case market currency is not home currency *@
+                            @if (dropdown.d.HcDividentLast.HasValue == true && context.d.Currency != context.d.HomeCurrency)
+                            {
+                                <div class="row">
+                                @dropdown.d.HcDividentLast.Value.ToString("0")@dropdown.HomeCurrency&nbsp;
+                                @dropdown.d.HcDividentLastP.Value.ToString("0.0")%&nbsp;
+                                @dropdown.d.HcDividentTotal.Value.ToString("0")@dropdown.HomeCurrency&nbsp;
+                                @dropdown.d.HcDividentTotalP.Value.ToString("0.0")%
+                                </div>
+                            }
+		                </div>
+                        </MudTd>
+                    }
+                    else
+                    {
+                        <MudTd></MudTd>
+                    }
+
+                    @if ( dropdown.HcAnnualReturnP.HasValue )
+                    {
+                        <MudTd>
+                            @dropdown.HcAnnualReturnP <b>%&nbsp;</b> 
+                        </MudTd>
+                    }
+                    else
+                    {
+                        <MudTd></MudTd>
+                    }
+
+                    <MudTd><MudIconButton Icon="@Icons.Material.Filled.ModeEdit" aria-label="edit" @onclick="@(() => OnBtnEditEventAsync(@dropdown))" /></MudTd>
+
+                    <MudTd><MudIconButton Icon="@Icons.Material.Filled.AttachMoney" aria-label="sale" @onclick="@(() => OnBtnSaleEventAsync(@dropdown))" /></MudTd>
+
+                </RowTemplate>
+
+            </MudTable>
+            </td>
+            </MudTr>
+        }
+        </ChildRowContent>
+
+    </MudTable>
+}

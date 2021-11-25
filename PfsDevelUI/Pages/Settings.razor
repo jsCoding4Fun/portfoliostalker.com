@@ -1,0 +1,46 @@
+﻿@page "/settings"
+@using PfsDevelUI.Components
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <PageHeader />
+</div>
+
+<MudTabs Elevation="1" Rounded="true" PanelClass="pa-6">
+
+    <MudTabPanel Text="Settings" >
+        <TabSettings />
+    </MudTabPanel>
+
+    <MudTabPanel Text="Tags & Groups" >
+        <MudTabs Elevation="1" Rounded="true" PanelClass="pa-6">
+            <MudTabPanel Text="Groups" >
+                <CompTagGroupsEdit />
+            </MudTabPanel>
+            <MudTabPanel Text="Assign" >
+                <CompTagGroupsAssign />
+            </MudTabPanel>
+        </MudTabs>
+    </MudTabPanel>
+
+    <MudTabPanel Text="Provider Keys" >
+        <CompSettProviders UseCase="@CompSettProviders.UseCaseID.LOCAL_SETT" />
+    </MudTabPanel>
+
+    <MudTabPanel Text="Market Providers" >
+        <CompSettMarkets UseCase="@CompSettMarkets.UseCaseID.LOCAL_SETT" />
+    </MudTabPanel>
+
+    @if (_allowLocalWhiteList == true)
+    {
+    <MudTabPanel Text="White List" >
+        <CompLocalWhiteList />
+    </MudTabPanel>
+    }
+
+    @if (_allowCustomAlarms == true)
+    {
+    <MudTabPanel Text="Custom Alarms" >
+        <CompCustomAlarms />
+    </MudTabPanel>
+    }
+</MudTabs>

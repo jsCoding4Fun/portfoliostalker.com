@@ -1,0 +1,26 @@
+﻿@using PFS.Types
+
+<MudTabs Elevation="1" Rounded="true" PanelClass="pa-6">
+    <MudTabPanel Text="Stock Notes" >
+        <StockNoteEdit STID="@STID" />
+    </MudTabPanel>
+    @if (_allowPerformanceTab == true)
+    {
+    <MudTabPanel Text="Performance" >
+        <StockMgmtPerformance STID="@STID" />
+    </MudTabPanel>
+    }
+    <MudTabPanel Text="Alarms" >
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnAddAlarmAsync">Add</MudButton>
+        <StockAlarmEdit @ref="_childStockAlarmEdit" STID="@STID" />
+    </MudTabPanel>
+    <MudTabPanel Text="Orders" >
+        <StockMgmtOrders STID="@STID" />
+    </MudTabPanel>
+    <MudTabPanel Text="Holdings" >
+        <ReportHoldings STID="@STID" />
+    </MudTabPanel>
+    <MudTabPanel Text="Dividents" >
+        <StockMgmtDividents STID="@STID" />
+    </MudTabPanel>
+</MudTabs>

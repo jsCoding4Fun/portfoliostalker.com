@@ -1,0 +1,52 @@
+﻿@namespace PfsDevelUI.Components
+
+@if (_viewReport == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MudTable T="ViewReportUserEventsData" Items="@_viewReport" Hover="true" SortLabel="Sort By" FixedHeader="true" Height="600px" >
+        <HeaderContent>
+            <MudTh>Mode</MudTh>
+            <MudTh>Date</MudTh>
+            <MudTh>Type</MudTh>
+            <MudTh>Ticker</MudTh>
+            @if (string.IsNullOrEmpty(PfName))
+            {
+            <MudTh>Portfolio</MudTh>
+            }
+            <MudTh>Description</MudTh>
+            @if (string.IsNullOrEmpty(PfName) == false)
+            {
+            <MudTh>Operations</MudTh>
+            }
+            <MudTh><MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete"OnClick="OnBtnDeleteAllEvents" /></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd><MudIconButton Icon="@context.Icon" @onclick="@(() => OnBtnSwapMode(@context))" /></MudTd>
+            <MudTd>@context.d.Date.ToString("yyyy-MM-dd")</MudTd>
+            <MudTd>@context.d.Type.ToString()</MudTd>
+            <MudTd>
+                <NavLink class="nav-link" href="@context.TickerNavLink" >
+                    <span class="oi oi-list-rich" aria-hidden="true"></span>$@context.d.Ticker
+                </NavLink>
+            </MudTd>
+            @if (string.IsNullOrEmpty(PfName))
+            {
+            <MudTd>@context.d.PfName</MudTd>
+            }
+            <MudTd>@context.Desc</MudTd>
+            @if (string.IsNullOrEmpty(PfName) == false)
+            {
+            <MudTd>
+                @if (string.IsNullOrEmpty(context.Operation1) == false)
+                {
+                    <MudButton Variant="Variant.Filled" FullWidth=false Color="Color.Secondary" Size="Size.Small" @onclick="@(() => EvOperation1Async(@context))" >@context.Operation1</MudButton>
+            }
+            </MudTd>
+            }
+            <MudTd><MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" @onclick="@(() => OnBtnDeleteEvent(@context))" /></MudTd>
+        </RowTemplate>
+    </MudTable>
+}

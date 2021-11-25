@@ -1,0 +1,195 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+@using PFS.Shared.Types
+
+<MudDialog>
+    <TitleContent>
+        <MudToggleIconButton Toggled="@_fullscreen" ToggledChanged="OnFullScreenChanged"
+                        Icon="@Icons.Material.Filled.Fullscreen" Color="@Color.Error" 
+                        ToggledIcon="@Icons.Material.Filled.Fullscreen" ToggledColor="@Color.Success" />
+
+        Setup Wizard:
+
+    </TitleContent>
+
+    <DialogContent>
+
+        @if (_setup != null)
+        {
+        <MudSimpleTable Style="overflow-x: auto;">
+            <thead>
+                <tr>
+                    <th>Setup</th>
+                    <th>Currency</th>
+                    <th>Provider</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach ( Setup s in _setup)
+            {
+                <tr>
+                    <td>@s.Entry</td>
+                    <td>@s.Currency.ToString()</td>
+                    <td>@(s.ProviderID == ExtDataProviders.Unknown ? string.Empty : s.ProviderID.ToString())</td>
+                </tr>
+            }
+            </tbody>
+        </MudSimpleTable>
+        }
+
+        <MudPaper Width="800px" Outlined="true" >
+        <MudTabs Outlined="true" Position="Position.Left" Rounded="true" Border="true" ActivePanelIndex="@_tabActivePanel">
+
+            <MudTabPanel Text="Market(s)" Disabled="@_tabDisabled[(int)ProgressID.Markets]">
+
+                <div class="container">
+                    <div class="row">
+                        <b>
+                            Please select markets you are interested. Note! If following list has just NYSE & NASDAQ then may 
+                            require relogin to update information. Also if this does not have some markets you would like to 
+                            include, then login to discord and let me know as only adding new markets per requests.
+                        </b>
+                    </div>
+
+                    <div class="row">
+                        <MudSelect T="string" Label="Market" HelperText="Select markets you interested" MultiSelection="true" @bind-Value="_selMarkets">
+                            @foreach (MarketMeta market in _allMarkets)
+                            {
+                                <MudSelectItem T="string" Value="@market.ID.ToString()">@market.ID [@market.Name]</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </div>
+                </div>
+            </MudTabPanel>
+
+            <MudTabPanel Text="Currency"  Disabled="@_tabDisabled[(int)ProgressID.Currency]">
+                <div class="container">
+                    <div class="row">
+                        <MudSelect T="CurrencyCode"HelperText="Select your home currency"  Variant="Variant.Outlined" @bind-Value="@HomeCurrency" >
+                            @foreach (CurrencyCode value in Enum.GetValues(typeof(CurrencyCode)))
+                            {
+                                @if (value == CurrencyCode.Unknown)
+                                    continue;
+
+                                <MudSelectItem  T="CurrencyCode" Value="@value">@value.ToString()</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </div>
+                    @if (_requireCurrencyProvider == true)
+                    {
+                    <div class="row">
+                        <b>
+                            Looks like per your market selection & home currency selection, there is multiple currencies on use.
+                            As Portfoliostalker is showing majority of valuations on your home currency, there is need to setup
+                            currency conversion rate provider. Only supported provider atm is POLYGON as they seam to do all nice
+                            job for providing required information.
+                            Please click following button to access their registeration page, and gain your personal FREE access key
+                            to their services. 
+                        </b>
+                    </div>
+                    <div class="row">
+                        <MudButton Link="https://polygon.io/dashboard/signup" Target="_blank" Variant="Variant.Filled" Color="Color.Primary">Launch [polygon.io]</MudButton>
+                    </div>
+                    <div class="row">
+                        <MudTextField @bind-Value="_currencyProviderKey" Label="Enter your provider private key here" Variant="Variant.Outlined" MaxLength="64" />
+                    </div>
+                    }
+                </div>
+            </MudTabPanel>
+
+            <MudTabPanel Text="Provider" Disabled="@_tabDisabled[(int)ProgressID.Provider]">
+                @if (_providerCfg != null)
+                {
+                    <div class="container">
+                        <div class="row">
+                            <b>
+                                @_providerCfg.Desc
+                            </b>
+                        </div>
+                        <div class="row">
+                            @if (_providerID == ExtDataProviders.Polygon)
+                            {
+                                <MudButton Link="https://polygon.io/dashboard/signup" Target="_blank" Variant="Variant.Filled" Color="Color.Primary">Launch [polygon.io]</MudButton>
+                            }
+                            else if ( _providerID == ExtDataProviders.AlphaVantage )
+                            {
+                                <MudButton Link="https://www.alphavantage.co/support/#api-key" Target="_blank" Variant="Variant.Filled" Color="Color.Primary">Launch [alphavantage.co]</MudButton>
+                            }
+                            else if ( _providerID == ExtDataProviders.Unibit )
+                            {
+                                <MudButton Link="https://unibit.ai/signup" Target="_blank" Variant="Variant.Filled" Color="Color.Primary">Launch [unibit.ai]</MudButton>
+                            }
+                            else if ( _providerID == ExtDataProviders.Iexcloud )
+                            {
+                                <MudButton Link="https://iexcloud.io/" Target="_blank" Variant="Variant.Filled" Color="Color.Primary">Launch [iexcloud.io]</MudButton>
+                            }
+                            else if ( _providerID == ExtDataProviders.Marketstack )
+                            {
+                                <MudButton Link="https://marketstack.com/?utm_source=FirstPromoter&utm_medium=Affiliate&fpr=pfs" Target="_blank" Variant="Variant.Filled" Color="Color.Primary">Launch [marketstack.com]</MudButton>
+                            }
+                            
+                        </div>
+                        <div class="row">
+                            <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnAlternativeProvider" >Click for alternatives</MudButton>
+                        </div>
+                        <div class="row">
+                            <MudTextField @bind-Value="_providerKey" Label="Enter your provider private key here" Variant="Variant.Outlined" MaxLength="64"  />
+                        </div>
+                    </div>
+                }
+            </MudTabPanel>
+
+            <MudTabPanel Text="Stocks" Disabled="@_tabDisabled[(int)ProgressID.Stocks]">
+
+                    <div class="container">
+                        <div class="row">
+                            <MudTextField @bind-Value="_pfName" Label="Portfolio" Variant="Variant.Outlined"  MaxLength="16" />
+                        </div>
+                        <div class="row">
+                            <MudTextField @bind-Value="_sgName" Label="Stock Group" Variant="Variant.Outlined"  MaxLength="16" />
+                        </div>
+                        <div class="row">
+                            <MudTextField @bind-Value="_search" Label="Give ticker or name of company" Variant="Variant.Outlined" Adornment="Adornment.End" 
+                                AdornmentIcon="@Icons.Filled.Search" AdornmentColor="Color.Secondary" 
+                                DebounceInterval="500" OnDebounceIntervalElapsed="OnSearchChangedAsync" />
+                        </div>
+                        <div class="row">
+                            @if (_viewedStocks != null)
+                            {
+                                <MudContainer Style="max-height: 300px; overflow-y: scroll">
+                                    <MudList Clickable="true" @bind-SelectedValue="@m_selStockTicker" >
+                                        @{
+                                            foreach (StockMeta stock in _viewedStocks)
+                                            {
+                                                <MudListItem Value="@(stock.MarketID.ToString()+" "+stock.Ticker)" Text="@(stock.MarketID.ToString()+" "+stock.Ticker)"> @stock.MarketID.ToString(): @stock.Ticker @stock.Name </MudListItem>
+                                            }
+                                        }
+                                    </MudList>
+                                </MudContainer>
+                            }
+                        </div>
+                    </div>
+            </MudTabPanel>
+
+            <MudTabPanel Text="Overview" Disabled="@_tabDisabled[(int)ProgressID.Overview]">
+
+                <MudOverlay Visible="_isSetupBusy" Absolute="true" LightBackground="true">
+                    <MudProgressCircular Indeterminate="true" Size="Size.Medium" Color="Color.Secondary" />
+                </MudOverlay>
+
+                <b>
+                    @_overviewOfSetup
+                </b>
+
+            </MudTabPanel>
+
+        </MudTabs>
+        </MudPaper>
+
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="DlgCancel" Disabled="@_isSetupBusy" >Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="OnBtnNext" Disabled="@_isSetupBusy">@_nextButton</MudButton>
+    </DialogActions>
+</MudDialog>

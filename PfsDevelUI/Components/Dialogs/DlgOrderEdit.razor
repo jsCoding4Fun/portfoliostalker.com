@@ -1,0 +1,52 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+@using PFS.Shared.Types
+
+<MudDialog>
+    <TitleContent>
+
+        <MudToggleIconButton Toggled="@_fullscreen" ToggledChanged="OnFullScreenChanged"
+                        Icon="@Icons.Material.Filled.Fullscreen" Color="@Color.Error" 
+                        ToggledIcon="@Icons.Material.Filled.Fullscreen" ToggledColor="@Color.Success" />
+
+        Order of [<b>$@Ticker</b>] under: <b>@PfName</b>
+
+    </TitleContent>
+
+    <DialogContent>
+
+        <MudSelect T="StockOrderType" @bind-Value="@_order.Type" Label="Select Type" Required  >
+            @foreach (StockOrderType item in Enum.GetValues(typeof(StockOrderType)))
+            {
+                if ( item == StockOrderType.Unknown) 
+                   continue;
+
+                <MudSelectItem Value="@item">@item</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudTextField  @bind-Value="_order.Units" Label="Units" Variant="Variant.Outlined" />
+        <MudTextField  @bind-Value="_order.PricePerUnit" Label="Price" Variant="Variant.Outlined" />
+
+        <MudDatePicker Label="First Day" @bind-Date="_firstDate" MinDate="@(_minDate)" />
+        <MudDatePicker Label="Last Day" @bind-Date="_lastDate" MinDate="@(_firstDate)" />
+
+    </DialogContent>
+
+    <DialogActions>
+        @if (Edit)
+        {
+        <MudButton Color="Color.Primary" OnClick="DlgDeleteOrder">Delete</MudButton>
+        <MudButton Color="Color.Primary" OnClick="DlgConvertOrderSync">Convert</MudButton>
+        }
+        <MudButton OnClick="DlgCancel">Cancel</MudButton>
+        @if ( Edit)
+        {
+        <MudButton Color="Color.Primary" OnClick="DlgEditOrderAsync">Save</MudButton>
+        }
+        else
+        {
+        <MudButton Color="Color.Primary" OnClick="DlgAddOrderAsync">Add</MudButton>
+        }
+    </DialogActions>
+</MudDialog>

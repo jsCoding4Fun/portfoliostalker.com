@@ -1,0 +1,11 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+
+<MudCard>
+    <MudCardContent>
+        <MudTextField T="string" @bind-Text="_cmdLine" Label="Enter Command" Variant="Variant.Outlined" AutoFocus="true" OnKeyUp="OnKeyUp" />
+    </MudCardContent>
+    <MudCardContent>
+        <MudTextField  @bind-Value="_cmdLog" Lines="20" ReadOnly Variant="Variant.Outlined" />
+    </MudCardContent>
+</MudCard>

@@ -1,0 +1,63 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+@using PFS.Shared.Types;
+
+<MudCard Outlined="true">
+    <MudContainer >
+        <MudTable T="ViewRow" Items="@_viewRow"  FixedHeader="true" Height="600px" Dense="true">
+            <ColGroup>
+                <col style="width: 25%;" />
+                <col style="width: 5%;" />
+                <col style="width: 25%;" />
+                <col style="width: 5%;" />
+                <col style="width: 25%;" />
+                <col style="width: 5%;" />
+            </ColGroup>
+            <HeaderContent>
+
+                @if (_groupRO[0] )
+                {
+                    <MudTh><MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="OnBtnGrp0Async">Edit: Grp Def</MudButton></MudTh>
+                }
+                else
+                {
+                    <MudTh><MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnGrp0Async">Save: Grp Def</MudButton></MudTh>
+                }
+                <MudTh>#</MudTh>
+                
+                @if (_groupRO[1] )
+                {
+                    <MudTh><MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="OnBtnGrp1Async">Edit: Grp 1</MudButton></MudTh>
+                }
+                else
+                {
+                    <MudTh><MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnGrp1Async">Save: Grp 1</MudButton></MudTh>
+                }                
+                <MudTh>#</MudTh>
+                
+                @if (_groupRO[2] )
+                {
+                    <MudTh><MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="OnBtnGrp2Async">Edit: Grp 2</MudButton></MudTh>
+                }
+                else
+                {
+                    <MudTh><MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnGrp2Async">Save: Grp 2</MudButton></MudTh>
+                }
+                <MudTh>#</MudTh>
+
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd><MudTextField  @bind-Value="@context.Field[0]" ReadOnly="@_groupRO[0]" MaxLength="20" Margin="Margin.Dense"/> </MudTd>
+                <MudTd>@context.Usage[0]</MudTd>
+                <MudTd><MudTextField  @bind-Value="@context.Field[1]" ReadOnly="@_groupRO[1]" MaxLength="20" Margin="Margin.Dense"/> </MudTd>
+                <MudTd>@context.Usage[1]</MudTd>
+                <MudTd><MudTextField  @bind-Value="@context.Field[2]" ReadOnly="@_groupRO[2]" MaxLength="20" Margin="Margin.Dense"/> </MudTd>
+                <MudTd>@context.Usage[2]</MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudContainer>
+
+    <MudCardActions>
+
+    </MudCardActions>
+</MudCard>

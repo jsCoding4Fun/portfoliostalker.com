@@ -1,0 +1,14 @@
+﻿<MudTable Items="@Holdings" >
+    <HeaderContent>
+        <MudTh>Date</MudTh>
+        <MudTh>Shares</MudTh>
+        <MudTh>Purhace</MudTh>
+        <MudTh>Profit %</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Date">@context.PurhaceDate.ToString("yyyy-MM-dd")</MudTd>
+        <MudTd DataLabel="Shares">@context.Units</MudTd>
+        <MudTd DataLabel="Purhace">@context.AvrgPrice.ToString("0.00")@UiF.Curr(Currency)</MudTd>
+        <MudTd DataLabel="ProfitP">@context.ProfitP%</MudTd>
+    </RowTemplate>
+</MudTable>

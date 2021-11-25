@@ -1,0 +1,27 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Shared.UiTypes
+
+@if (_editID != PrivSrvProperty.Unknown)
+{
+<MudPaper Class="pa-4 ma-2" Outlined="true">
+    <MudTextField  @bind-Value="_editProperty" Variant="Variant.Outlined" ReadOnly="true" /> 
+    <MudTextField  @bind-Value="_editValue" Label="@_editLabel" Variant="Variant.Outlined" /> 
+    <MudButton Color="Color.Primary" OnClick="DlgSaveAsync">Save</MudButton>
+</MudPaper>
+}
+
+@if (_view != null && _view.Count > 0)
+{
+    <MudPaper Class="pa-4 ma-2" Outlined="true">
+        <MudTable T="ViewProperties" Items="@_view" Hover="true" SortLabel="Sort By" FixedHeader="true" Height="500px" OnRowClick="@(args => OnRowClickedAsync(args))" >
+            <HeaderContent>
+                <MudTh>ID</MudTh>
+                <MudTh>Value</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>@context.PropertyID.ToString()</MudTd>
+            <MudTd>@context.Value</MudTd>
+        </RowTemplate>
+    </MudTable>
+</MudPaper>
+}

@@ -1,0 +1,56 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+@using PFS.Shared.Types
+
+<MudDialog>
+    <TitleContent>
+
+        <MudToggleIconButton Toggled="@_fullscreen" ToggledChanged="OnFullScreenChanged"
+                        Icon="@Icons.Material.Filled.Fullscreen" Color="@Color.Error" 
+                        ToggledIcon="@Icons.Material.Filled.Fullscreen" ToggledColor="@Color.Success" />
+
+        Fetch latest Intraday stock valuations:
+
+    </TitleContent>
+
+    <DialogContent>
+
+        <MudSelect T="string" Label="Market(s)" HelperText="Select effected markets" MultiSelection="true" @bind-Value="_selectedMarkets" >
+            @foreach (MarketMeta market in _markets)
+            {
+                <MudSelectItem T="string" Value="@market.ID.ToString()">@market.ID</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudSelect T="string" Label="Portfolio(s)" HelperText="Select effected portfolios" MultiSelection="true" @bind-Value="_selectedPortfolios">
+            @foreach (string pf in _portfolios)
+            {
+                <MudSelectItem T="string" Value="@pf">@pf</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudSelect T="ExtDataProviders" Label="Provider" Strict="true" Variant="Variant.Outlined" Format="F2"  @bind-Value="_selectedProvider">
+            @{
+                foreach (ExtDataProviders provider in _providers)
+                {
+                    <MudSelectItem  T="ExtDataProviders" Value="@provider">@provider.ToString()</MudSelectItem>
+                }
+            }
+        </MudSelect>
+
+        <MudOverlay Visible="_isFetching" Absolute="true" LightBackground="true">
+            <MudProgressCircular Indeterminate="true" Size="Size.Medium" Color="Color.Secondary" />
+        </MudOverlay>
+
+    </DialogContent>
+
+    <DialogActions>
+        <MudToggleIconButton Toggled="@_waitFetching" ToggledChanged="OnWaitChanged"
+                        Icon="@Icons.Material.Filled.CloudOff" Color="@Color.Error" 
+                        ToggledIcon="@Icons.Material.Filled.CloudQueue" ToggledColor="@Color.Success" />
+
+        <span>@(_waitFetching ? "Wait Fetch" : "Fetch Background")</span>
+        <MudButton OnClick="DlgCancel">Cancel</MudButton>
+        <MudButton Disabled="_isFetching" Color="Color.Primary" OnClick="DlgFetch">Fetch</MudButton>
+    </DialogActions>
+</MudDialog>

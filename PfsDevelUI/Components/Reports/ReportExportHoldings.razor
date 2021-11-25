@@ -1,0 +1,56 @@
+﻿@namespace PfsDevelUI.Components
+
+@if ( _noContent )
+{
+    <p><em>No holdings found</em></p>
+}
+else if ( string.IsNullOrWhiteSpace(_rawHtmlTable) == true )
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="container">
+    <div class="row">
+    <div class="col-md-1">
+        <MudIconButton Icon="@Icons.Material.Filled.Save" Color="Color.Info" OnClick="OnBtnSaveSelections" />
+    </div>
+    <div class="col-md-2">
+        <MudSelect T="string" Label="SortBy" Variant="Variant.Outlined"  @bind-Value="@SortBy" >
+            @foreach (RepColumn col in Enum.GetValues(typeof(RepColumn)))
+            {
+                <MudSelectItem T="string" Value="@col.ToString()">@col.ToString()</MudSelectItem>
+            }
+        </MudSelect>
+    </div>
+    <div class="col-md-2">
+        <MudSelect T="string" Label="Columns" Variant="Variant.Outlined" MultiSelection="true" @bind-SelectedValues="SelColumnDef" MultiSelectionTextFunc="SelColumns" >
+            @foreach (RepColumn col in Enum.GetValues(typeof(RepColumn)))
+            {
+                <MudSelectItem T="string" Value="@col.ToString()">@col.ToString()</MudSelectItem>
+            }
+        </MudSelect>
+    </div>
+    <div class="col-md-3">
+        <MudSelect T="string" Label="Settings" Variant="Variant.Outlined" MultiSelection="true" @bind-SelectedValues="SelSettingsDef" MultiSelectionTextFunc="SelSettings" >
+            @foreach (RepSettings sett in Enum.GetValues(typeof(RepSettings)))
+            {
+                <MudSelectItem T="string" Value="@sett.ToString()">@sett.ToString()</MudSelectItem>
+            }
+        </MudSelect>
+    </div>
+    <div class="col-md-1">
+        <MudMenu Label="Export" Variant="Variant.Filled" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary" >
+			@foreach (RepExport value in Enum.GetValues(typeof(RepExport)))
+			{
+                <MudMenuItem @onclick="@(() => OnExportAsync(@value))">@value</MudMenuItem>
+            }
+        </MudMenu>
+    </div>
+    </div>
+    </div>
+
+    @((MarkupString)_rawHtmlTable)
+
+    @((MarkupString)_rawHtmlNotes)
+}

@@ -1,0 +1,75 @@
+﻿@namespace PfsDevelUI.Components
+
+@if (_viewStocks == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MudTable T="ViewStocks" Items="@_viewStocks" Hover="true" SortLabel="Sort By" FixedHeader="true" Height="600px" OnRowClick="@(args => OnRowClicked(args))">
+        <HeaderContent>
+            <MudTh><MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnSaveAll">Save All</MudButton></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewStocks, object>(x=>x.d.StockMeta.Name)">@_headerTextName</MudTableSortLabel></MudTh>
+            <MudTd>@(_headerTextGroups[0] == null ? "N/A" : _headerTextGroups[0])</MudTd>
+            <MudTd>@(_headerTextGroups[1] == null ? "N/A" : _headerTextGroups[1])</MudTd>
+            <MudTd>@(_headerTextGroups[2] == null ? "N/A" : _headerTextGroups[2])</MudTd>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.d.StockMeta.Ticker</MudTd>
+            <MudTd>@context.d.StockMeta.Name</MudTd>
+
+            <MudTd>
+                @if (_headerTextGroups[0] != null)
+                {
+                    <MudSelect T="string" @bind-Value="context.d.Groups[0]">
+                        @foreach (string value in _tagGroups[0])
+                        {
+                            <MudSelectItem  T="string" Value="@value">@value.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+                }
+            </MudTd>
+
+            <MudTd>
+                @if (_headerTextGroups[1] != null)
+                {
+                    <MudSelect T="string" @bind-Value="context.d.Groups[1]">
+                        @foreach (string value in _tagGroups[1])
+                        {
+                            <MudSelectItem  T="string" Value="@value">@value.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+                }
+            </MudTd>
+
+            <MudTd>
+                @if (_headerTextGroups[2] != null)
+                {
+                    <MudSelect T="string" @bind-Value="context.d.Groups[2]">
+                        @foreach (string value in _tagGroups[2])
+                        {
+                            <MudSelectItem  T="string" Value="@value">@value.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+                }
+            </MudTd>
+
+        </RowTemplate>
+        <ChildRowContent>
+            @if (context.ShowDropDown)
+            {
+                <MudTr>
+                <td colspan="10"> <!-- !!!NOTE!!! <= This is amount of columns on table that popdown extens to -->
+                    <MudTabs Elevation="1" Rounded="true" PanelClass="pa-6">
+                        <MudTabPanel Text="Overview" >
+                            <WidgNoteOverview STID="@context.d.StockMeta.STID" ShowTags="false" />
+                        </MudTabPanel>
+                        <MudTabPanel Text="Tags" >
+                        </MudTabPanel>
+                    </MudTabs>
+                </td>
+                </MudTr>
+            }
+        </ChildRowContent>
+    </MudTable>
+}

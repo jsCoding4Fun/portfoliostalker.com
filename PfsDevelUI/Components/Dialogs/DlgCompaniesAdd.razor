@@ -1,0 +1,97 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+@using PFS.Shared.Types
+
+<MudDialog>
+    <TitleContent>
+
+        <MudToggleIconButton Toggled="@_fullscreen" ToggledChanged="OnFullScreenChanged"
+                        Icon="@Icons.Material.Filled.Fullscreen" Color="@Color.Error" 
+                        ToggledIcon="@Icons.Material.Filled.Fullscreen" ToggledColor="@Color.Success" />
+
+        Add companies to account:
+
+    </TitleContent>
+
+    <DialogContent>
+
+        <MudPaper Height="600px" Width="100%" >
+            <MudTable T="ViewCompanies" Items="@_viewCompanies"  Hover="true" FixedHeader="true" Height="600px" >
+                <ColGroup>
+                    <col style="width: 15%;" />
+                    <col style="width: 15%;" />
+                    <col style="width: 20%;" />
+                    <col style="width: 15%;" />
+                    <col style="width: 25%;" />
+                    <col style="width: 10%;" />
+                </ColGroup>
+                <HeaderContent>
+                    <MudTh>Brokers Info</MudTh>
+                    <MudTh>Brokers ISIN</MudTh>
+                    <MudTh>PFS Market</MudTh>
+                    <MudTh>PFS Ticker</MudTh>
+                    <MudTh>PFS Company</MudTh>
+                    <MudTh>State</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd >@context.BrokerInfo</MudTd>
+                    <MudTd >@context.ISIN</MudTd>
+                    @if (context.State != State.Unknown)
+                    {
+                        <MudTd >@context.StockMeta.MarketID.ToString()</MudTd>
+                        <MudTd >@context.StockMeta.Ticker</MudTd>
+                        <MudTd >@context.StockMeta.Name</MudTd>
+                    }
+                    else
+                    {
+                        <MudTd><MudSelect T="MarketID" Label="Select" Strict="true" Variant="Variant.Outlined" Format="F2" @bind-Value="context.StockMeta.MarketID" >
+                        @{
+                            foreach (MarketID marketID in _configuredMarketIDs)
+                            {
+                            <MudSelectItem  T="MarketID" Value="@marketID">@marketID.ToString()</MudSelectItem>
+                            }
+                        }
+                        </MudSelect></MudTd>  
+                        
+                        <MudTd><MudTextField  @bind-Value="context.StockMeta.Ticker" Variant="Variant.Outlined" MaxLength="8" /></MudTd>  
+
+                        <MudTd></MudTd>
+                    }
+                    @if ( context.State == State.Automatic )
+                    {
+                    <MudTd><MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnBtnAutomOffAsync(@context))">Automatic</MudButton></MudTd>
+                    }
+                    else if ( context.State == State.Unknown )
+                    {
+                    <MudTd><MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnBtnSearchAsync(@context))">Search</MudButton></MudTd>
+                    }
+                    else if ( context.State == State.UserManual )
+                    {
+                    <MudTd><MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnBtnManualCleanAsync(@context))">Manual</MudButton></MudTd>
+                    }
+                </RowTemplate>
+            </MudTable>
+        </MudPaper>
+
+        <MudOverlay Visible="_isBusy" Absolute="true" LightBackground="true">
+            <MudProgressCircular Indeterminate="true" Size="Size.Medium" Color="Color.Secondary" />
+        </MudOverlay>
+
+    </DialogContent>
+
+    <DialogActions>
+
+        <MudSelect T="string" Variant="Variant.Outlined" @bind-Value="_addToSgName" Label="Must select Stock Group to track added stocks" >
+            @foreach (string sgName in _stockGroups)
+            {
+                <MudSelectItem  T="string" Value="@sgName">@sgName</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudButton OnClick="DlgCancel">Close</MudButton>
+        @if (_isBusy == false && string.IsNullOrWhiteSpace(_addToSgName) == false)
+        {
+        <MudButton Color="Color.Primary" OnClick="DlgAddTrackingAsync">Add Tracking</MudButton>
+        }
+    </DialogActions>
+</MudDialog>

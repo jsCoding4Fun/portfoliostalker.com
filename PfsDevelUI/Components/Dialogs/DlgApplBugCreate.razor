@@ -1,0 +1,16 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+
+<MudDialog>
+    <DialogContent>
+        <MudContainer Style="max-height: 700px; overflow-y: scroll">
+            <MudTextField @bind-Value="_recording" Label="Recording" Variant="Variant.Outlined" ReadOnly="true" Lines="20" /> 
+        </MudContainer>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="DlgClean">Clean</MudButton>
+
+        <MudButton OnClick="DlgCancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>

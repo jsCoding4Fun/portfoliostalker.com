@@ -1,0 +1,15 @@
+﻿@page "/StockGroup/{SgName}"
+@using PfsDevelUI.Components
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <PageHeader AddUnderBtnText="AddStock" OnAddUnder="OnPageHeaderAddStockAsync" 
+                MenuItems="@HeaderMenuItems" OnMenuSelEventAsync="OnMenuSelEventAsync" />
+</div>
+
+@if (_deleted == false)
+{
+    <ReportStockTable @ref="_reportStockTable" ViewBtnRemoveStock="true" ViewBtnAddHolding="true" ViewBtnAddOrder="true" ViewBtnSaleHolding="true"
+                      ViewBtnAddDivident="true"
+                      PfName="@_pfName" SgName="@SgName" 
+                      ReportType="@ReportStockTable.ReportTypeID.STOCK_GROUP" />
+}

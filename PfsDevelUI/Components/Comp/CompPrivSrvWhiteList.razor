@@ -1,0 +1,53 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+@using PFS.Shared.Types;
+
+@if ( _whiteListStocks == null )
+{
+<MudProgressCircular Indeterminate="true"></MudProgressCircular>
+}
+else
+{
+<MudCard Outlined="true">
+    <MudContainer >
+        <MudTable T="ViewWhiteList" Items="@_whiteListStocks" >
+            <ColGroup>
+                <col style="width: 10%;" />
+                <col style="width: 10%;" />
+                <col style="width: 40%;" />
+                <col style="width: 25%;" />
+                <col style="width: 7%;" />
+                <col style="width: 7%;" />
+            </ColGroup>
+            <HeaderContent>
+                <MudTh>Market</MudTh>
+                <MudTh>Ticker</MudTh>
+                <MudTh>Company</MudTh>
+                <MudTh>Provider</MudTh>
+                <MudTh>Delete</MudTh>
+                <MudTh>Test</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>@context.StockMeta.MarketID.ToString()</MudTd>
+                <MudTd>@context.StockMeta.Ticker</MudTd>
+                <MudTd>@context.StockMeta.Name</MudTd>
+                <MudTd>
+                    <MudSelect T="ExtDataProviders" Variant="Variant.Outlined" @bind-Value="context.Provider">
+                        @foreach (ExtDataProviders provider in Enum.GetValues(typeof(ExtDataProviders)))
+                        {
+                            <MudSelectItem  T="ExtDataProviders" Value="@provider">@provider.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudTd>
+                <MudTd><MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnBtnDelete(@context.StockMeta.STID))">DEL</MudButton></MudTd>
+                <MudTd><MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnBtnTestAsync(@context.StockMeta.STID))">Test</MudButton></MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudContainer>
+
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnAddAsync" >Add</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnSaveAsync" >Save</MudButton>
+    </MudCardActions>
+</MudCard>
+}

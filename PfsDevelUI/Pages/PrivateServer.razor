@@ -1,0 +1,33 @@
+﻿@page "/privateserver"
+@using PfsDevelUI.Components
+
+@if (_allowPrivServer == true)
+{
+    <div class="top-row pl-4 navbar navbar-dark">
+        <PageHeader />
+    </div>
+
+    <MudTabs Elevation="1" Rounded="true" PanelClass="pa-6">
+        <MudTabPanel Text="Settings" >
+            <CompPrivSrvSettings />
+        </MudTabPanel>
+        <MudTabPanel Text="Tracking" >
+            <ReportPrivSrvTrackedStocks />
+        </MudTabPanel>
+        <MudTabPanel Text="Provider Keys" >
+            <CompSettProviders UseCase="@CompSettProviders.UseCaseID.PRIV_SERV_SETT" />
+        </MudTabPanel>
+        <MudTabPanel Text="Market Providers" >
+            <CompSettMarkets UseCase="@CompSettMarkets.UseCaseID.PRIV_SERV_SETT" />
+        </MudTabPanel>
+        <MudTabPanel Text="White List" >
+            <CompPrivSrvWhiteList />
+        </MudTabPanel>
+        @if (_allowUserMgmt == true)
+        {
+        <MudTabPanel Text="User Mgmt" >
+            <CompPrivSrvUserMgmt />
+        </MudTabPanel>
+        }
+    </MudTabs>
+}

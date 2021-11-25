@@ -1,0 +1,43 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+
+<MudPaper Class="pa-4 ma-2" Outlined="true">
+    <MudTextField  @bind-Value="_editUser.Username" Label="Username" Variant="Variant.Outlined" ReadOnly="@_editOnly" /> 
+    <MudTextField  @bind-Value="_editUser.Note" Label="note" Variant="Variant.Outlined"/> 
+    <MudDatePicker Label="Expiration Date" @bind-Date="_editExpirationDate" MinDate="@(DateTime.Now)" />
+
+    @if( _editOnly == true )
+    {
+        <MudTextField  @bind-Value="_editProperties" Label="Properties" Variant="Variant.Outlined"/> 
+
+        <MudButton Color="Color.Primary" OnClick="OnBtnSaveUserAsync">Save</MudButton>
+
+        @if ( _editUser.Admin == false )
+        {
+        <MudButton Color="Color.Primary" OnClick="OnBtnDeleteUserAsync">Delete</MudButton>
+        }
+    }
+    else
+    {
+        <MudButton Color="Color.Primary" OnClick="OnBtnAddUserAsync">Add New</MudButton>
+    }
+    
+</MudPaper>
+
+@if (_view != null && _view.Count > 0)
+{
+    <MudPaper Class="pa-4 ma-2" Outlined="true">
+        <MudTable T="ViewUser" Items="@_view" Hover="true" SortLabel="Sort By" FixedHeader="true" Height="300px" OnRowClick="@(args => OnRowClicked(args))" >
+            <HeaderContent>
+                <MudTh>Username</MudTh>
+                <MudTh>Stocks</MudTh>
+                <MudTh>Expiration</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>@context.ShowName</MudTd>
+                <MudTd>@context.d.TrackedStocks</MudTd>
+                <MudTd>@context.Expiration</MudTd>
+        </RowTemplate>
+    </MudTable>
+</MudPaper>
+}

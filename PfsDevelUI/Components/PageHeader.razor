@@ -1,0 +1,96 @@
+﻿@using PfsDevelUI.Components
+
+<MudAppBar Color="Color.Primary" Fixed="false" >
+
+    @if (string.IsNullOrEmpty(Username) == false && AddUnderBtnText != null && AddUnderBtnText != string.Empty )
+    {
+        <button type="button" @onclick="@AddUnder">@AddUnderBtnText</button>
+    }
+
+    @if (_isDemoMode )
+    {
+        <MudSpacer />
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnExitDemoMode" >Click to exit Demo</MudButton>
+    }
+    else if (_showSaveAndExitBtn)
+    {
+        <MudSpacer />
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnSaveAndExitAsync" >Save and Exit</MudButton>
+    }
+
+    <MudSpacer />
+    @if (string.IsNullOrEmpty(Username) == false)
+    {
+    <CascadingValue Value="@Garbage">
+        <CompStockStatus />
+    </CascadingValue>
+    }
+    <MudSpacer />
+    
+    @if ( _recording == true )
+    {
+        <MudIconButton Icon="@Icons.Material.Filled.BugReport" Color="Color.Success" OnClick="OnBtnRecordingOpenAsync" />
+    }
+
+    @if (string.IsNullOrEmpty(Username) == true )
+    {
+        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="OnUsernameClickedAsync" >
+        -not logged in-
+        </MudButton>
+    }
+    else
+    {
+        @if (_unreadNewsAmount > 0)
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.Announcement" Color="Color.Success" OnClick="OnBtnUnreadNews" />
+        }
+
+        <MudMenu Icon="@Icons.Material.Filled.Menu" >
+            @if (MenuItems != null )
+            {
+                @foreach ( MenuItem item in MenuItems )
+                {
+                    <MudMenuItem OnClick="@(() => OnCustomMenuSelAsync(@item.ID))">@item.Text</MudMenuItem>
+                }
+            }
+
+            <MudMenuItem Link="/settings" >Settings</MudMenuItem>
+
+            @if (_allowPrivServer == true && _privSrvAdmin == true)
+            {
+            <MudMenuItem Link="/PrivateServer" >PrivSrv Admin</MudMenuItem>
+            }
+
+            @if (_isDemoMode == false)
+            {
+            <MudMenuItem OnClick="OnExportAccount">Export Backup</MudMenuItem>
+            }
+        </MudMenu>
+
+        @if (_allowPrivServer == true && _privSrvEnabled == true) // Need to be main server online & private server enabled to show icon for private server
+        {
+            @if ( _privSrvConnected == true )
+            {
+                <MudIconButton Icon="@Icons.Material.Filled.CloudQueue" Color="Color.Success" Disabled="true" />
+            }
+            else
+            {
+                <MudIconButton Icon="@Icons.Material.Filled.CloudOff" Color="Color.Error" OnClick="OnBtnPrivSrvTryReconnectAsync" />
+            }
+        }
+
+        @if (_isDemoMode == true)
+        {
+            <MudButton Variant="Variant.Outlined" Disabled="true" >
+                [DemoMode]: @Username
+            </MudButton>
+        }
+        else
+        {
+            <MudButton Variant="Variant.Outlined" Disabled="true"   >
+                @Username
+            </MudButton>
+        }
+    }
+
+</MudAppBar>

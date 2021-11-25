@@ -1,0 +1,20 @@
+﻿@using PfsDevelUI.Shared
+
+<MudTable Items="@_dividents" >
+    <HeaderContent>
+        <MudTh>Portfolio</MudTh>
+        <MudTh>Date</MudTh>
+        <MudTh>Units</MudTh>
+        <MudTh>Payment</MudTh>
+        <MudTh>Total</MudTh>
+        <MudTh>Delete</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd >@context.PfName</MudTd>
+        <MudTd >@context.d.Date.ToString("yyyy-MM-dd")</MudTd>
+        <MudTd >@context.d.Units</MudTd>
+        <MudTd >@context.d.PaymentPerUnit.ToString("0.00")@UiF.Curr(context.Currency)</MudTd>
+        <MudTd >@((@context.d.Units * context.d.PaymentPerUnit).ToString("0.00"))@UiF.Curr(context.Currency)</MudTd>
+        <MudTd><MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnDeleteDividentAsync(@context))" >DEL</MudButton></MudTd>
+    </RowTemplate>
+</MudTable>

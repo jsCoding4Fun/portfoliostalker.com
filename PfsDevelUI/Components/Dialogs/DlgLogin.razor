@@ -1,0 +1,41 @@
+﻿@namespace PfsDevelUI.Components
+
+<MudDialog>
+    <TitleContent>
+        <MudToggleIconButton Toggled="@_fullscreen" ToggledChanged="OnFullScreenChanged"
+                        Icon="@Icons.Material.Filled.Fullscreen" Color="@Color.Error"
+                        ToggledIcon="@Icons.Material.Filled.Fullscreen" ToggledColor="@Color.Success" />
+        Login:
+    </TitleContent>
+
+    <DialogContent>
+        @if ( _showBusySignal == true )
+        {
+            <MudProgressCircular Indeterminate="true"></MudProgressCircular>        
+        }
+
+        <MudTextField  @bind-Value="_userinfo.Username" Label="Username" Variant="Variant.Outlined" 
+                       DebounceInterval="500" OnDebounceIntervalElapsed="OnUsernameChanged" />
+        @if (string.IsNullOrEmpty(_defUsername) == true)
+        {
+        <MudTextField  @bind-Value="_userinfo.Password" Label="Password" Variant="Variant.Outlined" InputType="InputType.Password" />
+        <MudSwitch Color="Color.Primary" @bind-Checked=@(_remember) Label="Remember Me" />
+        }
+    </DialogContent>
+
+    <DialogActions>
+        @if (string.IsNullOrEmpty(_defUsername) == true)
+        {
+        <MudButton OnClick="OnSwapRegister"
+                   Variant="Variant.Outlined"
+                   EndIcon="@Icons.Material.Filled.CloudQueue"
+                   Color="Color.Tertiary" 
+                   Disabled="@_showBusySignal">
+            Go Registeration
+        </MudButton>
+        }
+        <MudButton OnClick="DlgCancel">Cancel</MudButton>
+
+        <MudButton Color="Color.Primary"  Disabled="@_showBusySignal" OnClick="DlgOkAsync">Login</MudButton>
+    </DialogActions>
+</MudDialog>

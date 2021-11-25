@@ -1,0 +1,70 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+@using PFS.Shared.Types;
+
+<MudCard Outlined="true">
+    <MudContainer >
+        <MudTable T="ViewMarketProviders" Items="@_marketProviders" >
+            <ColGroup>
+                @if (UseCase == UseCaseID.PRIV_SERV_SETT)
+                {
+                <col style="width: 15%;" />
+                <col style="width: 30%;" />
+                <col style="width: 30%;" />
+                <col style="width: 25%;" />
+                }
+            </ColGroup>
+            <HeaderContent>
+                <MudTh>Market</MudTh>
+                <MudTh>Provider</MudTh>
+                @if (UseCase == UseCaseID.PRIV_SERV_SETT)
+                {
+                <MudTh>Backup</MudTh>
+                <MudTh>Manual Fetch Time</MudTh>
+                }
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Market">@context.MarketID.ToString()</MudTd>
+                <MudTd>
+                    <MudSelect T="ExtDataProviders" Variant="Variant.Outlined" @bind-Value="context.Provider">
+                        @foreach (ExtDataProviders provider in @context.AvailableProviders)
+                        {
+                            <MudSelectItem  T="ExtDataProviders" Value="@provider">@provider.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudTd>
+                @if (UseCase == UseCaseID.PRIV_SERV_SETT)
+                {
+                <MudTd>
+                    <MudSelect T="ExtDataProviders" Variant="Variant.Outlined" @bind-Value="context.Backup">
+                        @foreach (ExtDataProviders provider in  @context.AvailableProviders)
+                        {
+                            <MudSelectItem T="ExtDataProviders" Value="@provider">@provider.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudTd>
+
+                <MudTd>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <MudSwitch @bind-Checked="context.CustomTimeEnabled" Color="Color.Secondary" />
+                            </div>
+                            <div class="col-md-7">
+                                @if (context.CustomTimeEnabled)
+                                {
+                                    <MudNumericField T="int" Min="0" Max="360" @bind-Value="context.CustomTime" Label="As mins" HelperText="Fetch after close" Variant="Variant.Text" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </MudTd>
+                }
+            </RowTemplate>
+        </MudTable>
+    </MudContainer>
+
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnSaveAsync" >Save</MudButton>
+    </MudCardActions>
+</MudCard>

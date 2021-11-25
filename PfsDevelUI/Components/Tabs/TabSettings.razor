@@ -1,0 +1,229 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+@using PFS.Shared.Types
+
+<MudPaper Width="800px" Outlined="true" >
+<MudTabs Elevation="1" Rounded="true" PanelClass="pa-6">
+    <MudTabPanel Text="General" >
+        <MudSimpleTable Style="overflow-x: auto;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Account Type</td>
+                    <td>
+                    </td>
+                    <td>
+                        @_accountType
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Home Currency</td>
+                    <td></td>
+                    <td>
+                        <MudMenu Label="@_homeCurrency" Variant="Variant.Filled" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary" >
+			                @foreach (CurrencyCode value in Enum.GetValues(typeof(CurrencyCode)))
+			                {
+                                @if (value == CurrencyCode.Unknown || value.ToString() == _homeCurrency)
+                                        continue;
+
+                                @if (_isDemoMode == false)
+                                {
+                                    <MudMenuItem @onclick="@(() => OnSetHomeCurrency(@value))">@value</MudMenuItem>
+                                }
+                            }
+                        </MudMenu>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Currency Provider</td>
+                    <td><MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnUpdateCurrencyConversionRates">@_latestCurrencyDate</MudButton></td>
+                    <td>
+                        <MudMenu Label="@_selCurrencyProvider" Variant="Variant.Filled" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary" >
+			                @foreach (ExtDataProviders value in _currencyProviders)
+			                {
+                                <MudMenuItem @onclick="@(() => OnSetCurrencyProvider(@value))">@value</MudMenuItem>
+			                }
+                        </MudMenu>
+                    </td>
+                </tr>
+
+                @if (_isDemoMode == false)
+                {
+                <tr>
+                    <td>Import</td>
+                    <td></td>
+                    <td>
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnImportDlgAsync" >Import</MudButton>
+                    </td>
+                </tr>
+                }
+
+                @if (_allowCleanAllLocal == true)
+                {
+                <tr>
+                    <td>Remove ALL local data</td>
+                    <td></td>
+                    <td>
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnClearAllAsync" >Clear</MudButton>
+                    </td>
+                </tr>
+                }
+
+                @if ( _allowDebugRecording == true )
+                {
+                <tr>
+                    <td>Record Debug Data</td>
+                    <td></td>
+                    <td>
+                        <MudSwitch Color="Color.Success" Label="Log" Checked="@_recordDebugData" T="bool" CheckedChanged="OnRecordChanged"></MudSwitch>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </MudSimpleTable>
+    </MudTabPanel>
+    @if (_allowPrivServer == true)
+    {
+    <MudTabPanel Text="Priv Srv" >
+        <MudSimpleTable Style="overflow-x: auto;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Private Server Address</td>
+                    <td>
+                        @if (string.IsNullOrEmpty(_privSrvAddr) == true)
+                        {
+                            <MudTextField @bind-Value="_editingAddr" Label="addr:port" Variant="Variant.Outlined"  />
+                        }
+                        else
+                        {
+                            <MudTextField @bind-Value="_privSrvAddr" Label="addr:port" Variant="Variant.Outlined" Disabled  />
+                        }
+                    </td>
+                    <td>
+                        @if (string.IsNullOrEmpty(_privSrvAddr) == true)
+                        {
+                            <MudIconButton Icon="@Icons.Material.Filled.Login" Color="Color.Primary" OnClick="OnBtnNewPrivSrvConnectAsync" />
+                        }
+                        else
+                        {
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="OnBtnRemovePrivSrvAsync" />
+                        }
+                    </td>
+                </tr>
+                @if (string.IsNullOrEmpty(_privSrvAddr) == false && _privSrvConnected == true && _isDemoMode == false)
+                {
+                    <tr>
+                        <td>Private Server Backups</td>
+                        <td>
+                        </td>
+                        <td>
+                            @if (_backups == null)
+                            {
+                                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnBackupGetListAsync" >Get List</MudButton>
+                            }
+                            else
+                            {
+                                <MudMenu Label="Download" Variant="Variant.Filled" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary" >
+                                    @foreach (string backupname in _backups)
+                                    {
+                                        <MudMenuItem @onclick="@(() => OnFetchBackupFileAsync(@backupname))">@backupname</MudMenuItem>
+                                    }
+                                </MudMenu>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </MudSimpleTable>
+    </MudTabPanel>
+    }
+
+    @if (_isDemoMode == false)
+    {
+    <MudTabPanel Text="Data" >
+        <MudSimpleTable Style="overflow-x: auto;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Change Password</td>
+                    <td></td>
+                    <td>
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnChangePasswordAsync" >Password</MudButton>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Change Email</td>
+                    <td></td>
+                    <td>
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnChangeEmailAsync" >Email</MudButton>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Backup Account to PFS</td>
+                    <td>
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@_showBusySignal" OnClick="OnBtnStorePfsBackupAsync" >@_pfsBackupDate</MudButton>
+                    </td>
+                    <td>
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@_showBusySignal" OnClick="OnBtnFetchPfsBackupAsync" >Fetch</MudButton>
+                    </td>
+                </tr>
+
+            </tbody>
+        </MudSimpleTable>
+    </MudTabPanel>
+    }
+
+    @if ( _userProperties != null && _userProperties.Count() > 0 )
+    {
+    <MudTabPanel Text="Advanced" >
+        <MudSimpleTable Style="overflow-x: auto;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (KeyValuePair<string, string> prop in _userProperties )
+                {
+                <tr>
+                    <td>@prop.Key</td>
+                    <td></td>
+                    <td>
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnBtnUpdateUserPropertyAsync(@prop))" >@prop.Value</MudButton>
+                    </td>
+                </tr>     
+                }
+
+            </tbody>
+        </MudSimpleTable>
+    </MudTabPanel>                
+    }
+
+</MudTabs>
+</MudPaper>

@@ -1,0 +1,23 @@
+﻿@page "/"
+@using PfsDevelUI.Components
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <PageHeader @ref="_refChildPageHeader" OnNewNews="OnNewNewsByPageHeader" EvLoginSuccessfull="OnEvLoginSuccessfull" />
+</div>
+
+<h1>Hello, Welcome!</h1>
+<h2>This is public versio of www.portfoliostalker.com projects Blazor C# UI. 
+    Actual core PFS.Client implementation comes from NUGETs but this contains 99% identical UI codes. 
+    Some of used NUGETs source is also released under github. This WASM uses own dedicated test server. 
+    If server doesnt reply for you, please visit discord to ask to start it up.</h2>
+<h2>Questions, feedback etc: https://discord.gg/R84YPKHEKf</h2>
+<h2>Br, Jami</h2>
+@if ( _showSetupWizard )
+{
+    <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnSetupWizardAsync" >Setup Wizard</MudButton>   
+}
+
+@if (_showNews) @*  this just for component, doesnt mean there is actual news *@
+{
+    <TabNews @ref="_refChildTabNews" />
+}

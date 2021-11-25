@@ -1,0 +1,15 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+
+<MudDialog>
+
+    <DialogContent>
+        <MudContainer Style="max-height: 300px; overflow-y: scroll">
+            <MudText Style="white-space: pre-wrap;">@Content</MudText>
+        </MudContainer>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="DlgCancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>

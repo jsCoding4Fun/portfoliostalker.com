@@ -1,0 +1,67 @@
+﻿@page "/account"
+@using PfsDevelUI.Components
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <PageHeader AddUnderBtnText="AddPortfolio" OnAddUnder="OnPageHeaderOnAddPortfolioAsync" 
+    />
+</div>
+
+<MudTabs Elevation="1" Rounded="true" PanelClass="pa-6">
+    <MudTabPanel Text="Events" >
+        <ReportUserEvents />
+    </MudTabPanel>
+    <MudTabPanel Text="Watch Alarms" >
+        <ReportStockTable PfName="" SgName="" 
+                          ReportType="@ReportStockTable.ReportTypeID.ACCOUNT_WATCH" />
+    </MudTabPanel>
+    <MudTabPanel Text="Invested" >
+        <ReportInvested PfName="" />
+    </MudTabPanel>
+    <MudTabPanel Text="Export Holdings" >
+        <ReportExportHoldings />
+    </MudTabPanel>
+    @if (_allowMarkets == true)
+    {
+        <MudTabPanel Text="Markets" >
+            @if (_markets == null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>MIC</th>
+                            <th>Name</th>
+                            <th>Last Market Closing</th>
+                            <th>Last Closing UTC Time</th>
+                            <th>Next Closing UTC Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var market in _markets)
+                        {
+                            <tr>
+                                <td>@market.Meta.ID</td>
+                                <td>@market.Meta.MIC</td>
+                                <td>@market.Meta.Name</td>
+                                <td>@market.Closes.LastClosingDate.ToString("yyyy-MM-dd")</td>
+                                <td>@market.Closes.LastCloseUTC.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>@market.Closes.NextCloseUTC.ToString("yyyy-MM-dd HH:mm")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </MudTabPanel>
+    }
+    <MudTabPanel Text="Tracking" >
+        <ReportTrackedStocks />
+        @if (_allowIntraDay == true)
+        {
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnLaunchIntradayDlgAsync">Intraday</MudButton>
+        }
+    </MudTabPanel>
+</MudTabs>

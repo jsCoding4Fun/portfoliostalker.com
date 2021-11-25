@@ -1,0 +1,283 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = browser
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = true
+build_property.IncludeAllContentForSelfExtract = 
+build_property.RootNamespace = PfsDevelUI
+build_property.RootNamespace = PfsDevelUI
+build_property.ProjectDir = C:\Bitbucket\GitHubShared\PfsDevelUI\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Bitbucket\GitHubShared\PfsDevelUI
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Comp/CompCustomAlarms.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21wXENvbXBDdXN0b21BbGFybXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Comp/CompLocalWhiteList.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21wXENvbXBMb2NhbFdoaXRlTGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Comp/CompPrivSrvSettings.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21wXENvbXBQcml2U3J2U2V0dGluZ3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Comp/CompPrivSrvUserMgmt.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21wXENvbXBQcml2U3J2VXNlck1nbXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Comp/CompPrivSrvWhiteList.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21wXENvbXBQcml2U3J2V2hpdGVMaXN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Comp/CompSettMarkets.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21wXENvbXBTZXR0TWFya2V0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Comp/CompSettProviders.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21wXENvbXBTZXR0UHJvdmlkZXJzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Comp/CompStockStatus.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21wXENvbXBTdG9ja1N0YXR1cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Comp/CompTagGroupsAssign.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21wXENvbXBUYWdHcm91cHNBc3NpZ24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Comp/CompTagGroupsEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb21wXENvbXBUYWdHcm91cHNFZGl0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgAlarmEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ0FsYXJtRWRpdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgApplBugCreate.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ0FwcGxCdWdDcmVhdGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgCompaniesAdd.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ0NvbXBhbmllc0FkZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgCredentials.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ0NyZWRlbnRpYWxzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgDividentAdd.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ0RpdmlkZW50QWRkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgHoldingsEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ0hvbGRpbmdzRWRpdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgImport.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ0ltcG9ydC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgIntradayFetch.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ0ludHJhZGF5RmV0Y2gucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgLogin.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ0xvZ2luLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgOrderEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ09yZGVyRWRpdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgPortfolioEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ1BvcnRmb2xpb0VkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgPrivSrvFetchData.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ1ByaXZTcnZGZXRjaERhdGEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgPrivSrvWhiteList.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ1ByaXZTcnZXaGl0ZUxpc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgSetupWizard.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ1NldHVwV2l6YXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgStockGroupEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ1N0b2NrR3JvdXBFZGl0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgStockSelect.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ1N0b2NrU2VsZWN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgTestStockFetch.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ1Rlc3RTdG9ja0ZldGNoLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgTradeFinish.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ1RyYWRlRmluaXNoLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Dialogs/DlgViewContentString.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dzXERsZ1ZpZXdDb250ZW50U3RyaW5nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/PageHeader.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlSGVhZGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Reports/ReportExportHoldings.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSZXBvcnRzXFJlcG9ydEV4cG9ydEhvbGRpbmdzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Reports/ReportHoldings.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSZXBvcnRzXFJlcG9ydEhvbGRpbmdzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Reports/ReportInvested.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSZXBvcnRzXFJlcG9ydEludmVzdGVkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Reports/ReportPrivSrvTrackedStocks.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSZXBvcnRzXFJlcG9ydFByaXZTcnZUcmFja2VkU3RvY2tzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Reports/ReportStockTable.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSZXBvcnRzXFJlcG9ydFN0b2NrVGFibGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Reports/ReportTrackedStocks.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSZXBvcnRzXFJlcG9ydFRyYWNrZWRTdG9ja3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Reports/ReportTrades.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSZXBvcnRzXFJlcG9ydFRyYWRlcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Reports/ReportUserEvents.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSZXBvcnRzXFJlcG9ydFVzZXJFdmVudHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/StockAlarmEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTdG9ja0FsYXJtRWRpdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/StockMgmt.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTdG9ja01nbXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/StockMgmtCharts.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTdG9ja01nbXRDaGFydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/StockMgmtDividents.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTdG9ja01nbXREaXZpZGVudHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/StockMgmtOrders.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTdG9ja01nbXRPcmRlcnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/StockMgmtPerformance.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTdG9ja01nbXRQZXJmb3JtYW5jZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/StockNoteEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTdG9ja05vdGVFZGl0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/StockOrdersView.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTdG9ja09yZGVyc1ZpZXcucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/StockTableDividents.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTdG9ja1RhYmxlRGl2aWRlbnRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/StockTableHoldings.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTdG9ja1RhYmxlSG9sZGluZ3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Tabs/TabCmdLine.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xUYWJzXFRhYkNtZExpbmUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Tabs/TabImportTransactions.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xUYWJzXFRhYkltcG9ydFRyYW5zYWN0aW9ucy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Tabs/TabNews.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xUYWJzXFRhYk5ld3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Tabs/TabSettings.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xUYWJzXFRhYlNldHRpbmdzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Widgets/WidgNoteOverview.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xXaWRnZXRzXFdpZGdOb3RlT3ZlcnZpZXcucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Components/Widgets/WidgTagGroupEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xXaWRnZXRzXFdpZGdUYWdHcm91cEVkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Pages/Account.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Pages/CmdLine.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ21kTGluZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Pages/Portfolio.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUG9ydGZvbGlvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Pages/PrivateServer.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmF0ZVNlcnZlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Pages/Settings.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2V0dGluZ3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Pages/Stock.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RvY2sucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Pages/StockGroup.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RvY2tHcm91cC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-cs6ze026iy
+
+[C:/Bitbucket/GitHubShared/PfsDevelUI/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-1j6qiyo7ot

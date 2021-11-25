@@ -1,0 +1,108 @@
+﻿@namespace PfsDevelUI.Components
+
+@if (_viewReport == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MudTable T="ViewReportTrackedStocksData" Items="@_viewReport" Hover="true" SortLabel="Sort By" FixedHeader="true" Height="600px" >
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportTrackedStocksData, object>(x=>x.d.MarketID.ToString())">Market</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportTrackedStocksData, object>(x=>x.d.Ticker)">Ticker</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportTrackedStocksData, object>(x=>x.d.Name)">@_headerTextName</MudTableSortLabel></MudTh>
+            <MudTd>Holdings On</MudTd>
+            <MudTh>Tracking On</MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ViewReportTrackedStocksData, object>(x=>x.d.LastStockEdit)">Last Edit</MudTableSortLabel></MudTh>
+            @if (_showDayColumn == true)
+            {
+                <MudTh><MudTableSortLabel SortBy="new Func<ViewReportTrackedStocksData, object>(x=>x.d.LatestDate)">Latest</MudTableSortLabel></MudTh>
+            }
+            @if (_anythingToDelete == true)
+            {
+                <MudTh>Delete</MudTh>
+            }
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.d.MarketID.ToString()</MudTd>
+            <MudTd>@context.d.Ticker</MudTd>
+            <MudTd>@context.d.Name</MudTd>
+
+            @if ( context.d.AnyPfHoldings.Count() == 0 )
+            {
+                <MudTd></MudTd>
+            }
+            else if ( context.d.AnyPfHoldings.Count() == 1 )
+            {
+                <MudTd>@context.d.AnyPfHoldings[0]</MudTd>
+            }
+            else
+            {
+                <MudTd>
+                    <MudMenu Label="Many PFs">
+                        @foreach( string pfName in context.d.AnyPfHoldings)
+                        {
+                            <MudMenuItem>@pfName</MudMenuItem>
+                        }
+                    </MudMenu>
+                </MudTd>
+            }
+
+            @if ( context.d.AnySgTracking.Count() == 0 )
+            {
+                <MudTd></MudTd>
+            }
+            else if ( context.d.AnySgTracking.Count() == 1 )
+            {
+                <MudTd>@context.d.AnySgTracking[0]</MudTd>
+            }
+            else
+            {
+                <MudTd>
+                    <MudMenu Label="Many SGs">
+                        @foreach( string sgName in context.d.AnySgTracking)
+                        {
+                            <MudMenuItem>@sgName</MudMenuItem>
+                        }
+                    </MudMenu>
+                </MudTd>
+            }
+
+            <MudTd>
+            @if ( context.d.LastStockEdit != new DateTime(2021,1,1) )
+            {
+                @context.d.LastStockEdit.ToString("MMM-dd")
+            }
+            </MudTd>
+            @if (_showDayColumn == true && context.d.IsIntraday == false && context.d.IsUpToDate == true)
+            {
+                <MudTd>@(context.d.LatestDate.HasValue == true ? context.d.LatestDate.Value.ToString("MMM-dd") : "-wha?-")</MudTd>
+            }
+            else if (_showDayColumn == true && context.d.IsIntraday == false && context.d.IsUpToDate == false)
+            {
+                <MudTd> 
+                    <MudAlert Severity="Severity.Warning">
+                        @(context.d.LatestDate.HasValue == true ? context.d.LatestDate.Value.ToString("MMM-dd") : "-no data-")
+                    </MudAlert>
+                </MudTd>
+            }
+            else if (_showDayColumn == true && context.d.IsIntraday == true)
+            {
+                <MudTd> 
+                    <MudAlert Severity="Severity.Normal">
+                        @(context.d.LatestDate.HasValue == true ? context.d.LatestDate.Value.ToString("HH:mm") : "-wha?-")    
+                    </MudAlert>
+                </MudTd>
+            }
+            @if (_anythingToDelete == true)
+            {
+                <MudTd>
+                @if (context.allowDelete == true)
+                {
+                    <MudButton Variant="Variant.Filled" FullWidth=false Color="Color.Secondary" Size="Size.Small" @onclick="@(() => DoDeleteStock(@context.d.STID))" >DELETE</MudButton>
+                }
+                </MudTd>
+            }
+        </RowTemplate>
+    </MudTable>
+}

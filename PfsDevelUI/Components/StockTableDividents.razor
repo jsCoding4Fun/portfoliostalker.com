@@ -1,0 +1,16 @@
+﻿@using PfsDevelUI.Shared
+
+<MudTable Items="@Dividents" >
+    <HeaderContent>
+        <MudTh>Date</MudTh>
+        <MudTh>Shares</MudTh>
+        <MudTh>Payment</MudTh>
+        <MudTh>Total</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd >@context.Date.ToString("yyyy-MM-dd")</MudTd>
+        <MudTd >@context.Units</MudTd>
+        <MudTd >@context.PaymentPerUnit.ToString("0.00")@UiF.Curr(Currency)</MudTd>
+        <MudTd >@((@context.Units * context.PaymentPerUnit).ToString("0.00"))@UiF.Curr(Currency)</MudTd>
+    </RowTemplate>
+</MudTable>

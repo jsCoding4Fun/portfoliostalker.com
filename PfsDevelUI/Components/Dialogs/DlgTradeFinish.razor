@@ -1,0 +1,46 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+
+<MudDialog>
+    <TitleContent>
+
+        <MudToggleIconButton Toggled="@_fullscreen" ToggledChanged="OnFullScreenChanged"
+                        Icon="@Icons.Material.Filled.Fullscreen" Color="@Color.Error" 
+                        ToggledIcon="@Icons.Material.Filled.Fullscreen" ToggledColor="@Color.Success" />
+
+        @_header
+
+    </TitleContent>
+
+    <DialogContent>
+
+        <MudNumericField  @bind-Value="_values.SoldUnits" Label="@_labelSoldUnits" Variant="Variant.Outlined" Min="1" Max="@MaxUnits" HideSpinButtons="true" />
+        <MudNumericField  @bind-Value="_values.PricePerUnit" Label="Price per Unit" Variant="Variant.Outlined" Min="0" HideSpinButtons="true" AdornmentText="@_viewCurrency" Adornment="Adornment.End" />
+        <MudNumericField  @bind-Value="_values.Fee" Label="Fee" Variant="Variant.Outlined" Min="0" HideSpinButtons="true" AdornmentText="@_viewCurrency" Adornment="Adornment.End" />
+        <MudTextField  @bind-Value="_values.TradeID" Label="Custom Sale ID" Variant="Variant.Outlined" />
+        
+        @if (_viewConversionRate == true)
+        {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <MudTextField  @bind-Value="_values.ConversionRate" Label="@_conversionLabel" Variant="Variant.Outlined" />
+                </div>
+                <div class="col-md-1">
+                    <MudIconButton Icon="@Icons.Material.Filled.Search" Color="Color.Error" OnClick="OnBtnGetCurrencyAsync" />
+                </div>
+            </div>
+        </div>
+        }
+
+        <MudDatePicker Label="Sale Day" @bind-Date="_saleDate" MaxDate="@(DateTime.Now)" />
+
+    </DialogContent>
+
+    <DialogActions>
+
+        <MudButton OnClick="DlgCancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="OnBtnSaleAsync">Sale</MudButton>
+
+    </DialogActions>
+</MudDialog>

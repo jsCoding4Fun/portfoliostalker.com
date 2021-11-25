@@ -1,0 +1,16 @@
+﻿@namespace PfsDevelUI.Components
+@using PFS.Types
+
+@if (_privSrvEnabled == true)
+{
+    <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnUpdateStocksAsync" >@_stockStatusText</MudButton>
+}
+else if (_privSrvEnabled == false)
+{
+    <MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="_stockStatusDisable" OnClick="OnBtnUpdateStocksAsync" >@_stockStatusText</MudButton>    
+
+    @if (_naHidden == false)
+    {
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OnBtnUpdateNoDatasAsync" >@_naStatusText</MudButton>    
+    }
+}
